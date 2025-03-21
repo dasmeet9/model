@@ -104,7 +104,7 @@ let avatarData = {};
 const Settingss = async()=>{
     let Domain = window.location.hostname;
     console.log(Domain);
-    const api_url = 'http://192.168.1.14:5000/api/ai/details';
+    const api_url = 'http://127.0.0.1:5000/api/ai/details';
     const response = await fetch(api_url, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' , 'Active-Domain': Domain }
