@@ -1,12 +1,25 @@
-	<div id="chatbot-container"></div>
-	<script src="https://dasabhi8.github.io/3d_Avatar/chatbot-widget.js"></script>
-	<script>
-	// Initialize the widget using local paths.
-	ChatbotWidget.init({
-	containerId: 'chatbot-container', // The ID of the element where the widget will appear
-	cssUrl: 'https://dasabhi8.github.io/3d_Avatar/style.css', // Path to the CSS file
-	videoPathidle: 'https://dasabhi8.github.io/3d_Avatar/video/idle_1734937479631.mp4', // Local path to the video folder
-	videoPathtalk: 'https://dasabhi8.github.io/3d_Avatar/video/id6d1.mp4' // Local path to the video folder
-	// Path to the folder containing the video files
-	});
-	</script>
+	<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="https://dasabhi8.github.io/3d_Avatar/style.css">
+</head>
+<body>
+
+    <div id="chatbot-container"></div>
+
+    <script src="https://dasabhi8.github.io/3d_Avatar/chatbot-widget.js"></script>
+    <script>
+        // Initialize the chatbot widget
+        ChatbotWidget.init({
+            containerId: 'chatbot-container', 
+            cssUrl: 'https://dasabhi8.github.io/3d_Avatar/style.css',
+            videoPathidle: 'https://dasabhi8.github.io/3d_Avatar/video/idle_1734937479631.mp4',
+            videoPathtalk: 'https://dasabhi8.github.io/3d_Avatar/video/id6d1.mp4'
+        });
+    </script>
+
+</body>
+</html>
