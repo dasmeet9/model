@@ -30,14 +30,15 @@
       container.innerHTML = `
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <!-- <div class='main' > -->
-    <noscript>
+   <noscript>
     <style> .js-enabled { display: none; } </style>
     <p>JavaScript is disabled!</p>
     </noscript>
     <div class="chat-button js-enabled" id="chat-button" >
         <video id="avatar-videoa" autoplay loop muted playsinline src=""
         style="width: 100%; height: 100%; border-radius: 50%;" controlslist="nodownload noplaybackrate noremoteplayback " disablepictureinpicture></video>
-            <img  style="width: 100%; height: 100%; border-radius: 50%;" src="https://dasabhi8.github.io/3d_Avatar/bot.png" alt="">
+        <!-- <img  style="width: 80%; height: 80%; border-radius: 50%;margin: 7px;" src="https://dasabhi8.github.io/3d_Avatar/bot.png" alt=""> -->
+        <img  style="width: 80%; height: 80%; border-radius: 50%;margin: 10px;" src="https://dasmeet9.github.io/model/NiftyHMS%20(1).png" alt="">
     </div>
 
     <button class="yarra-ai-close-btn" id="close-btn23">
@@ -55,8 +56,8 @@
             
                 <div class="avatar-wrapper">
                 <div class="top-title">
-                <img id="avatar-logo" src="https://niftyhms.com/wp-content/uploads/2023/05/NiftyHMS.png" alt="">
-                <!-- <div  class="sltp">powered by &nbsp;<a href="http://aiagent.yaraai.com/" target="_blank">  yaraai</a></div> -->
+                    <img id="avatar-logo" src="https://niftyhms.com/wp-content/uploads/2023/05/NiftyHMS.png" alt="">
+                    <!-- <div  class="sltp">powered by &nbsp;<a href="http://aiagent.yaraai.com/" target="_blank">  yaraai</a></div> -->
                 <div class="stlpp"><span>Powered by &nbsp;</span><a href="http://aiagent.yaraai.com/" target="_blank">Yaraa.ai</a></div>
                 <!-- <hr style="margin:0; padding:0; width:60%; border:3px solid #e2e2e2; "> -->
                 </div>
@@ -156,7 +157,7 @@
   
       // Inject the widget HTML into the container
       createWidgetHTML(container, config);
-         const apiConfig = typeof aiAgentConfig !== 'undefined' ? aiAgentConfig : {};
+        const apiConfig = typeof aiAgentConfig !== 'undefined' ? aiAgentConfig : {};
 const form = document.getElementById("text-form");
 const textArea = document.getElementById("text");
 const chatHistory = document.querySelector(".chat_history");
@@ -177,7 +178,7 @@ const universalAudioControl = document.getElementById("universal-audio-control")
 const AUDIO_PREFERENCES_KEY = 'audio_preferences';
 const registrationForm = document.getElementById("registration-form");
 const chatInterface = document.getElementById("chat-interface");
-//const BACKEND_URL = 'http://127.0.0.1:5000'
+const BACKEND_URL = 'http://127.0.0.1:5000'
 let ENDCHATTHINGS = false;
 let MICONLY = true;
 let AVATAR_ENABLED = true;
@@ -263,7 +264,8 @@ let avatarData = {};
 const Settingss = async()=>{
     let Domain = window.location.hostname;
     console.log(Domain);
-    const response = await fetch('https://e2114f2f-a9b5-491e-8440-56d7194f517a.mock.pstmn.io/api/ai/details', {
+    const api_url = 'http://192.168.1.14:5000/api/ai/details';
+    const response = await fetch(api_url, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' , 'Active-Domain': Domain }
     });
@@ -1782,6 +1784,7 @@ function loadChatHistory() {
       appendChatBubbleFromHistory(entry.user, entry.message, entry.count);
   });
 }
+
     }
   
     // Expose the init method so that it can be called externally
