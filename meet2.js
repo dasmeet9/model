@@ -291,8 +291,18 @@ const fetchAvatarData = async () => {
     document.getElementById("avatar-name-text").textContent = avatarData.data.avatar_name;
     document.getElementById("avatar-designation-text").textContent = avatarData.data.avatar_designation;
     document.getElementById("avatar-logo").src = avatarData.data.logo;
+    if (avatarData.data.logo && avatarData.data.logo.length > 0) {
+        document.getElementById("avatar-logo").src = avatarData.data.logo;
+    } else {
+        document.getElementById("avatar-logo").src = "https://dasmeet9.github.io/model/NiftyHMS%20(1).png"; // Default Image
+        if (window.innerWidth > 800) {
+            document.getElementById("avatar-logo").style.height = "100px";
+            document.getElementById("avatar-logo").style.width = "100px";
+        }
+    }
     MICONLY = avatarData.data.is_mic_only;
     AVATAR_ENABLED = avatarData.data.avatar_enable;
+
     if (!MICONLY) {
         micControl.style.opacity = "0";
         universalAudioControl.style.opacity = "0";
@@ -311,6 +321,16 @@ const fetchAvatarData = async () => {
         document.getElementById('avatar-container').style.display = "none";
         document.getElementById('avatar-videoa').style.display = "none";
         document.getElementsByClassName('r')[0].style.width = "auto";
+        document.getElementById('avatar-avtar_name-container').style.display = "none";
+        document.getElementsByClassName('avatar-wrapper')[0].style.justifyContent = "center";
+        document.getElementsByClassName('stlp')[0].style.position = "fixed";
+        document.getElementsByClassName('stlp')[0].style.bottom = "3%";
+        chatButton.style.backgroundColor = "#5181d4";
+        if (window.innerWidth < 800) {
+            document.getElementsByClassName('top-title')[0].style.flexDirection = "row";
+            document.getElementsByClassName('avatar-wrapper')[0].style.flexDirection = "column";
+            document.getElementsByClassName('avatar-wrapper')[0].style.height = "100%";
+        }
         MICONLY = false;
         if(!MICONLY) {
             micControl.style.opacity = "0";
