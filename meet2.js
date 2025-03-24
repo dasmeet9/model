@@ -263,7 +263,7 @@ let avatarData = {};
 const Settingss = async()=>{
     let Domain = window.location.hostname;
     console.log(Domain);
-    const response = await fetch(BACKEND_URL + '/api/ai/details', {
+    const response = await fetch('https://676cc1a2-f2f6-4e39-b428-dacde925f209.mock.pstmn.io/b', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' , 'Active-Domain': Domain }
     });
