@@ -1,4 +1,4 @@
-const apiConfig = typeof aiAgentConfig !== 'undefined' ? aiAgentConfig : {};
+ const apiConfig = typeof aiAgentConfig !== 'undefined' ? aiAgentConfig : {};
 const form = document.getElementById("text-form");
 const textArea = document.getElementById("text");
 const chatHistory = document.querySelector(".chat_history");
@@ -21,7 +21,8 @@ const registrationForm = document.getElementById("registration-form");
 const chatInterface = document.getElementById("chat-interface");
 const BACKEND_URL = 'http://127.0.0.1:5000'
 let ENDCHATTHINGS = false;
-let MICONLY = false;
+let MICONLY = true;
+let AVATAR_ENABLED = true;
 // const endChatBtn = document.querySelector("#end-chat-btn");
 let userData = {};
 let registrationData = {};
@@ -104,8 +105,7 @@ let avatarData = {};
 const Settingss = async()=>{
     let Domain = window.location.hostname;
     console.log(Domain);
-    const api_url = 'http://127.0.0.1:5000/api/ai/details';
-    const response = await fetch(api_url, {
+    const response = await fetch('https://e2114f2f-a9b5-491e-8440-56d7194f517a.mock.pstmn.io/api/ai/details', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' , 'Active-Domain': Domain }
     });
@@ -115,6 +115,12 @@ const Settingss = async()=>{
 }
 const fetchAvatarData = async () => {
     avatarData = await Settingss();
+    if (avatarData.error) {
+        console.log("Error fetching avatar data:", avatarData.error);
+        chatButton.style.display = "none";
+        document.getElementById("chat-button").style.display = "none";
+        return;
+    }
     console.log("Avatar Data Ready:", avatarData);
 };
 
@@ -128,6 +134,41 @@ const fetchAvatarData = async () => {
     document.getElementById("avatar-designation-text").textContent = avatarData.data.avatar_designation;
     document.getElementById("avatar-logo").src = avatarData.data.logo;
     MICONLY = avatarData.data.is_mic_only;
+    AVATAR_ENABLED = avatarData.data.avatar_enable;
+    if (!MICONLY) {
+        micControl.style.opacity = "0";
+        universalAudioControl.style.opacity = "0";
+        universalAudioControl.onmouseover = null;
+        universalAudioControl.onmouseout = null;
+        micControl.onmouseover = null;
+        micControl.onmouseout = null;
+        universalAudioControl.style.pointerEvents = "none";
+        micControl.style.pointerEvents = "none";
+        document.getElementById("audio-control-container").style.pointerEvents = "none";
+        if (window.innerWidth < 800) {
+            endChatIcon.style.width = "75%";
+        }
+    }
+    if (!AVATAR_ENABLED) {
+        document.getElementById('avatar-container').style.display = "none";
+        document.getElementById('avatar-videoa').style.display = "none";
+        document.getElementsByClassName('r')[0].style.width = "auto";
+        MICONLY = false;
+        if(!MICONLY) {
+            micControl.style.opacity = "0";
+            universalAudioControl.style.opacity = "0";
+            universalAudioControl.onmouseover = null;
+            universalAudioControl.onmouseout = null;
+            micControl.onmouseover = null;
+            micControl.onmouseout = null;
+            universalAudioControl.style.pointerEvents = "none";
+            micControl.style.pointerEvents = "none";
+            document.getElementById("audio-control-container").style.pointerEvents = "none";
+            if (window.innerWidth < 800) {
+                endChatIcon.style.width = "75%";
+            }
+        }
+    }
 
 // Update the small video in the chat button
 const buttonVideo = document.getElementById('avatar-videoa');
@@ -276,30 +317,35 @@ function disableInputControls() {
     textArea.disabled = true;
     textArea.style.opacity = "0.5";
     textArea.style.cursor = "not-allowed";
-    micControl.style.opacity = "0.5";
-    micControl.style.pointerEvents = "none";
-    micControl.style.cursor = "not-allowed";
     submitButton.disabled = true;
     submitButton.style.opacity = "0.5";
     submitButton.style.cursor = "not-allowed";
-    universalAudioControl.style.opacity = "0.5";
-    universalAudioControl.disabled = true;
-    universalAudioControl.style.cursor = "not-allowed";
+    if (MICONLY) {
+        micControl.style.opacity = "0.5";
+        micControl.style.pointerEvents = "none";
+        micControl.style.cursor = "not-allowed";
+        universalAudioControl.style.opacity = "0.5";
+        universalAudioControl.disabled = true;
+        universalAudioControl.style.cursor = "not-allowed";
+    }
 }
 
 function enableInputControls() {
     textArea.disabled = false;
     textArea.style.opacity = "1";
     textArea.style.cursor = "text";
-    micControl.style.opacity = "1";
-    micControl.style.pointerEvents = "auto";
-    micControl.style.cursor = "pointer";
     submitButton.disabled = false;
     submitButton.style.opacity = "1";
     submitButton.style.cursor = "pointer";
-    universalAudioControl.style.opacity = "1";
-    universalAudioControl.disabled = false;
-    universalAudioControl.style.cursor = "pointer";
+    if (MICONLY) {
+        micControl.style.opacity = "1";
+        micControl.style.pointerEvents = "auto";
+        micControl.style.cursor = "pointer"; 
+        universalAudioControl.style.opacity = "1";
+        universalAudioControl.disabled = false;
+        universalAudioControl.style.cursor = "pointer";
+    }
+   
 }
 
 // Update form submission handler to use disable controls
@@ -407,6 +453,7 @@ async function searchtts(text) {
 async function processAndPlayTTS(textResponse) {
     const { isMuted } = JSON.parse(localStorage.getItem(AUDIO_PREFERENCES_KEY) || '{"isMuted": false}');
     if (isMuted) return;
+    if (!MICONLY) return;
     disableInputControls();
 
     try {
@@ -462,7 +509,8 @@ async function fetchAudioURLs(sentences) {
 }
 
 async function playAudioWithVideo(audioURLs) {
-    isPlaying = true;
+    if (MICONLY) {
+        isPlaying = true;
     universalAudioControl.style.opacity = "1";
     universalAudioControl.disabled = false;
     video.playbackRate = 1; // Slow down video
@@ -538,6 +586,7 @@ async function playAudioWithVideo(audioURLs) {
     video.style.display = "none";
     videoIdle.style.display = "block";
     videoIdle.play();
+    }
 }
 
 
@@ -714,14 +763,17 @@ let stream;
 let lastSoundTime;
 
 const startmicrophone = async () => {
-    const preferences = JSON.parse(localStorage.getItem(AUDIO_PREFERENCES_KEY)) || {};
-    if (preferences.microphoneEnabled === true) {
-        startRecording();
+    if (MICONLY) {
+        const preferences = JSON.parse(localStorage.getItem(AUDIO_PREFERENCES_KEY)) || {};
+        if (preferences.microphoneEnabled === true) {
+            startRecording();
+        }
     }
 };
 
 const startmicrophoneonclick = async () => {
-    const preferences = JSON.parse(localStorage.getItem(AUDIO_PREFERENCES_KEY)) || {};
+    if (MICONLY) {
+        const preferences = JSON.parse(localStorage.getItem(AUDIO_PREFERENCES_KEY)) || {};
     preferences.microphoneEnabled = !preferences.microphoneEnabled;
     localStorage.setItem(AUDIO_PREFERENCES_KEY, JSON.stringify(preferences));
     updateMicIcon();
@@ -729,6 +781,7 @@ const startmicrophoneonclick = async () => {
         startmicrophone();
     }else if(!preferences.microphoneEnabled) {
         stopRecording();
+    }
     }
 };
 
@@ -1253,7 +1306,8 @@ function removeLoadingIndicator() {
 
 // Initialize audio preferences
 function initAudioPreferences() {
-    const savedPreferences = localStorage.getItem(AUDIO_PREFERENCES_KEY);
+    if (MICONLY) {
+        const savedPreferences = localStorage.getItem(AUDIO_PREFERENCES_KEY);
     if (savedPreferences) {
         const { isMuted } = JSON.parse(savedPreferences);
         updateAudioControlUI(isMuted);
@@ -1265,18 +1319,22 @@ function initAudioPreferences() {
         }));
         updateAudioControlUI(false);
     }
+    }
 }
 
 // Update UI based on audio preferences
 function updateAudioControlUI(isMuted) {
+   if(MICONLY){
     if (isMuted) {
         universalAudioControl.classList.add('muted');
     } else {
         universalAudioControl.classList.remove('muted');
     }
 }
+}
 
 universalAudioControl.addEventListener('click', () => {
+    if (MICONLY) {
     const preferences = JSON.parse(localStorage.getItem(AUDIO_PREFERENCES_KEY));
     preferences.isMuted = !preferences.isMuted;
 
@@ -1286,6 +1344,7 @@ universalAudioControl.addEventListener('click', () => {
     if (preferences.isMuted) {
         stopPlayback(); // Stop both audio and video
         enableInputControls();
+    }
     }
 });
 
