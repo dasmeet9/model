@@ -3,8 +3,7 @@
     // Default configuration options
     var defaults = {
       containerId: 'chatbot-container',  // The element ID where the widget will be injected
-      cssUrl: 'https://dasmeet9.github.io/model/style.css'  // The URL to the external CSS file
-    
+      cssUrl: 'https://dasmeet9.github.io/model/style.css'  // The URL to the external CSS fil
     };
   
     // Merge user options with defaults
