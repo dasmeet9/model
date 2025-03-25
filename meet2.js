@@ -264,7 +264,7 @@ let avatarData = {};
 const Settingss = async()=>{
     let Domain = window.location.hostname;
     console.log(Domain);
-    const api_url = 'http://192.168.1.14:5000/api/ai/details';
+    const api_url = 'https://e766192c-1766-4166-9051-687b8037c85d.mock.pstmn.io/b';
     const response = await fetch(api_url, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' , 'Active-Domain': Domain }
