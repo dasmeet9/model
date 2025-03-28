@@ -312,22 +312,23 @@ button {
 }
 #close-btn23 {
     position: fixed;
-    bottom: 580px;
-    right: 30px;
+    /* bottom: 570px; 
+    right: 30px; */
+    bottom: 562px; /* Position from bottom to align with top of chat */
+    right: 13px;
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 8px 8px;
-    height: 38px;
-    width: 40px;
+    padding: 3px;
     border-radius: 50%;
     transition: all 0.3s ease;
     z-index: 1001; /* Higher than chat-container */
     display: none;
+    
 }
 
-#close-btn23:hover {
-    background-color: rgba(0, 0, 0, 0.3);
+#close-btn23:hover svg path{
+    stroke: #000000;
 }
 
 @keyframes slideIn {
@@ -565,14 +566,14 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px;
+    /* padding: 0 10px; */
     width: 100%;
 }
 
 .form-belowline2 {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 2px;
 }
 
 .form-belowline2 img {
@@ -684,6 +685,19 @@ button[type="submit"] {
     font-size: 8px;
     color: white;
     font-weight: 200;
+    span{
+        color: #666; 
+        font-size: 12px; 
+        font-family: 'Poppins', sans-serif;
+    }
+    a{
+        color: #2A3663; 
+        text-decoration: none; 
+        font-weight: 500; 
+        font-size: 12px; 
+        font-family: 'Poppins', sans-serif; 
+        transition: color 0.3s ease;
+    }
 }
 
 /* Chat end line styles */
@@ -830,7 +844,7 @@ body #audio-control-container #universal-audio-control {
     justify-content: center !important;
 }
 #audio-control-container:hover{
-    background: #aaaaaa !important;
+    background: #aaaaaa;
 }
 #audio-control-container{
     border-radius: 50%;
@@ -1173,10 +1187,6 @@ body #audio-control-container #universal-audio-control.muted .mute-line {
         height: 75%;
     }
 
-    #close-btn23:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-    }
-    
     .bootm {
         flex-direction: column;
         width: 100%;
@@ -1201,8 +1211,21 @@ body #audio-control-container #universal-audio-control.muted .mute-line {
     .stlpp{
         display: block;
         font-size: 8px;
-        color: white;
+        color: #666; 
         font-weight: 200;
+        span{
+            color: #666; 
+            font-size: 12px; 
+            font-family: 'Poppins', sans-serif;
+        }
+        a{
+            color: #2A3663; 
+            text-decoration: none; 
+            font-weight: 500; 
+            font-size: 12px; 
+            font-family: 'Poppins', sans-serif; 
+            transition: color 0.3s ease;
+        }
     }
 
     .avatar-wrapper {
@@ -1269,9 +1292,13 @@ body #audio-control-container #universal-audio-control.muted .mute-line {
         padding: 5px 18px;
         border-radius: 20px;
     }
-    #close-btn23 {
+    /* #close-btn23 {
         bottom: 78%;
         right: 18px;
+    } */
+    #close-btn23 {
+        bottom: 76%;
+        right: 3px;
     }
     .thank-you-icon-container {
         width: 80px;
@@ -1288,9 +1315,12 @@ body #audio-control-container #universal-audio-control.muted .mute-line {
         left: 32%;
     }
     #close-btn23 {
-        bottom: 78%;
-        right: 3%;
+        /* bottom: 78%;
+        right: 3%; */
+        bottom: 64.5vh;
+        right: 1px;
     }
+    
     /* End Chat Button Styles */
 /* .end-chat-container {
     display: flex;
@@ -1315,8 +1345,10 @@ body #audio-control-container #universal-audio-control.muted .mute-line {
         left: 5%;
     }
     #close-btn23 {
-        bottom: 81%;
-        right: 7px;
+        /* bottom: 81%;
+        right: 7px; */
+        bottom: 64.5vh;
+        right: 1px;
     }
     
     .form-belowline {
@@ -1372,10 +1404,7 @@ body #audio-control-container #universal-audio-control.muted .mute-line {
         width: 15px;
         height: 15px;
     }
-    #close-btn23 {
-        bottom: 66vh;
-        right: 15px;
-    }
+    
     /* .end-chat-container {
         display: flex;
         justify-content: center;
