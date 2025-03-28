@@ -41,7 +41,7 @@
     </div>
 
     <button class="yarra-ai-close-btn" id="close-btn23">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="15" height="15" style="background-color: #4f4e4e69;border-radius: 8px 8px 8px 8px;padding: 0;width: 21px;height: 15px; " viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M18 6L6 18M6 6L18 18" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
     </button>
@@ -263,7 +263,7 @@ let avatarData = {};
 const Settingss = async()=>{
     let Domain = window.location.hostname;
     console.log(Domain);
-    const api_url = 'https://e766192c-1766-4166-9051-687b8037c85d.mock.pstmn.io/b';
+    const api_url = 'https://f4fc65d0-3820-416a-8654-fdd3099200b8.mock.pstmn.io/complete';
     const response = await fetch(api_url, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' , 'Active-Domain': Domain }
@@ -1785,6 +1785,9 @@ function loadChatHistory() {
 }
 
     }
+   const chatbotContainer = document.createElement("div");
+   chatbotContainer.id = "chatbot-container";
+   document.body.appendChild(chatbotContainer);
   
     // Expose the init method so that it can be called externally
     window.ChatbotWidget = {
