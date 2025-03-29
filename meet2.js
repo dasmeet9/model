@@ -263,7 +263,7 @@ let avatarData = {};
 const Settingss = async()=>{
     let Domain = window.location.hostname;
     console.log(Domain);
-    const api_url = 'https://f4fc65d0-3820-416a-8654-fdd3099200b8.mock.pstmn.io/without_avatar';
+    const api_url = 'https://f4fc65d0-3820-416a-8654-fdd3099200b8.mock.pstmn.io/without_mic';
     const response = await fetch(api_url, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' , 'Active-Domain': Domain }
