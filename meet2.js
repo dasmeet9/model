@@ -307,17 +307,19 @@
         // }
         
         const fetchAvatarData = async () => {
+            console.log("Starting fetchAvatarData...");
             try {
+                console.log("Calling Settingss API...");
                 const result = await Settingss();
+                console.log("API response received:", result);
                 
                 if (!result.success) {
                     console.error("Error fetching avatar data:", result.error);
-                    // Even if there's an error, we should still show the basic chatbot
-                    showBasicChatbot();
-                    return;
+                    return null;
                 }
                 
                 avatarData = result.data;
+                console.log("Avatar data set:", avatarData);
                 
                 // Parse messages safely
                 let rawMessages = avatarData.data?.messages;
@@ -331,152 +333,213 @@
                 }
                 
                 messages = { ...parsedMessages };
-                
-                // Show the chatbot button after data is loaded
-                showChatbotButton();
+                console.log("Messages parsed successfully");
                 
                 return avatarData;
             } catch (error) {
                 console.error("Error in fetchAvatarData:", error);
-                // Show basic chatbot even if there's an error
-                showBasicChatbot();
+                return null;
             }
         };
-
-        // Add these helper functions to ensure the UI is shown
-        function showChatbotButton() {
-            const chatButton = document.getElementById("chat-button");
-            if (chatButton) {
-                chatButton.style.display = "flex";
-                chatButton.style.opacity = "1";
-            } else {
-                console.error("Chat button element not found");
-            }
-        }
-
-        function showBasicChatbot() {
-            // Show a basic version of the chatbot if we can't load the avatar data
-            const chatButton = document.getElementById("chat-button");
-            if (chatButton) {
-                // Remove video elements that might be causing errors
-                const videoElement = document.getElementById("avatar-videoa");
-                if (videoElement) {
-                    videoElement.style.display = "none";
-                }
-                
-                // Show just the logo or a default image
-                const imgElement = chatButton.querySelector("img");
-                if (imgElement) {
-                    imgElement.style.display = "block";
-                    imgElement.style.width = "80%";
-                    imgElement.style.height = "80%";
-                    imgElement.style.borderRadius = "50%";
-                    imgElement.style.margin = "10px";
-                    // Use default image if needed
-                    if (!imgElement.src || imgElement.src === "") {
-                        imgElement.src = "https://dasmeet9.github.io/model/NiftyHMS%20(1).png";
-                    }
-                }
-                
-                chatButton.style.display = "flex";
-                chatButton.style.opacity = "1";
-            } else {
-                console.error("Chat button element not found");
-            }
-        }
-
+        
+        // const fetchAvatarData = async () => {
+        //     avatarData = await Settingss();
+        //     // messages = {...avatarData.messages};
+        //     // Safely parse and spread messages
+        //     let rawMessages = avatarData.data.messages;
+        //     let parsedMessages = {};
+        
+        //     try {
+        //         parsedMessages = typeof rawMessages === 'string' ? JSON.parse(rawMessages) : rawMessages;
+        //     } catch (e) {
+        //         parsedMessages = {};
+        //     }
+        
+        //     // messages = { ...defaultMessages, ...parsedMessages };
+        //     messages = {  ...parsedMessages};
+        //  //  console.log("messages",messages);
+        // //  console.log("messages-welcome",messages.welcome);
+        //     // messages = {...avatarData.data.messages};
+        //     // console.log("skdjfsdfhdskfh",messages)
+        //     if (avatarData.error) {
+        //         console.log("Error fetching avatar data:", avatarData.error);
+        //         chatButton.style.display = "none";
+        //         document.getElementById("chat-button").style.display = "none";
+        //         return;
+        //     }
+        //     if (!avatarData.data || avatarData.data == undefined) {
+        //         console.log("Error fetching avatar data:", avatarData.error);
+        //         chatButton.style.display = "none";
+        //         document.getElementById("chat-button").style.display = "none";
+        //         return;
+        //     }
+        // };
+        
         // Wait for data before using it
         (async () => {
-            await fetchAvatarData();
-            video.src = avatarData.data.avatar_speaking;
-            videoIdle.src = avatarData.data.avatar_idle;
-            document.getElementById("avatar-name-text").textContent = avatarData.data.avatar_name;
-            document.getElementById("avatar-designation-text").textContent = avatarData.data.avatar_designation;
-            document.getElementById("avatar-logo").src = avatarData.data.logo;
-            if (avatarData.data.logo && avatarData.data.logo.length > 0) {
-                document.getElementById("avatar-logo").src = avatarData.data.logo;
-            } else {
-                // document.getElementById("avatar-logo").src = "https://dasmeet9.github.io/model/NiftyHMS%20(1).png"; // Default Image
-                document.getElementById("avatar-logo").src = "https://dasmeet9.github.io/model/unnamed.png"; // Default Image
-                if (window.innerWidth > 800) {
-                    // document.getElementById("avatar-logo").style.height = "100px";
-                    // document.getElementById("avatar-logo").style.width = "100px";
+            console.log("Starting initialization...");
+            try {
+                // Fetch avatar data
+                console.log("Fetching avatar data...");
+                const data = await fetchAvatarData();
+                console.log("Avatar data fetched:", data ? "SUCCESS" : "FAILED");
+                
+                if (!data || !data.data) {
+                    console.error("No valid avatar data received");
+                    return;
                 }
-            }
-            MICONLY = avatarData.data.is_mic_only;
-            AVATAR_ENABLED = avatarData.data.avatar_enable;
-        
-            if (!MICONLY) {
-                micControl.style.display = "none";
-                audioControlContainer.style.display = "none";
-                micControl.style.opacity = "0";
-                universalAudioControl.style.opacity = "0";
-                universalAudioControl.onmouseover = null;
-                universalAudioControl.onmouseout = null;
-                micControl.onmouseover = null;
-                micControl.onmouseout = null;
-                universalAudioControl.style.pointerEvents = "none";
-                micControl.style.pointerEvents = "none";
-                document.getElementById("audio-control-container").style.pointerEvents = "none";
-                if (window.innerWidth < 800) {
-                    endChatIcon.style.width = "75%";
+                
+                // Check if elements exist before using them
+                console.log("Checking DOM elements...");
+                const video = debugElement("avatar-video", "Video");
+                const videoIdle = debugElement("avatar-idle", "VideoIdle");
+                const avatarNameText = debugElement("avatar-name-text", "AvatarNameText");
+                const avatarDesignationText = debugElement("avatar-designation-text", "AvatarDesignationText");
+                const avatarLogo = debugElement("avatar-logo", "AvatarLogo");
+                const micControl = debugElement("mic-control", "MicControl");
+                const audioControlContainer = debugElement("audio-control-container", "AudioControlContainer");
+                const universalAudioControl = debugElement("universal-audio-control", "UniversalAudioControl");
+                const endChatIcon = debugElement("end-chat", "EndChatIcon");
+                const avatarContainer = debugElement("avatar-container", "AvatarContainer");
+                const avatarVideoa = debugElement("avatar-videoa", "AvatarVideoa");
+                const avatarNameContainer = debugElement("avatar-avtar_name-container", "AvatarNameContainer");
+                const chatButton = debugElement("chat-button", "ChatButton");
+                
+                // Set properties only if elements exist
+                console.log("Setting element properties...");
+                
+                if (video) video.src = avatarData.data.avatar_speaking;
+                if (videoIdle) videoIdle.src = avatarData.data.avatar_idle;
+                if (avatarNameText) avatarNameText.textContent = avatarData.data.avatar_name;
+                if (avatarDesignationText) avatarDesignationText.textContent = avatarData.data.avatar_designation;
+                
+                if (avatarLogo) {
+                    if (avatarData.data.logo && avatarData.data.logo.length > 0) {
+                        avatarLogo.src = avatarData.data.logo;
+                    } else {
+                        avatarLogo.src = "https://dasmeet9.github.io/model/unnamed.png";
+                        if (window.innerWidth > 800) {
+                            // Optional size adjustments
+                        }
+                    }
                 }
-                speedMap[avatarData?.data?.audio_speed] || 1.2;
-                // if(avatarData.data.audio_speed == "slow"){
-                //     AUDIOSPEED = 1;
-                // }else if(avatarData.data.audio_speed == "medium"){
-                //     AUDIOSPEED = 1.2;
-                // }else if (avatarData.data.audio_speed == "fast"){
-                //     AUDIOSPEED = 1.5;
-                // }
-            }
-            if (!AVATAR_ENABLED) {
-                MICONLY = false;
-                document.getElementById('avatar-container').style.display = "none";
-                document.getElementById('avatar-videoa').style.display = "none";
-                document.getElementsByClassName('r')[0].style.width = "auto";
-                document.getElementById('avatar-avtar_name-container').style.display = "none";
-                // document.getElementsByClassName('avatar-wrapper')[0].style.justifyContent = "center";
-                // document.getElementsByClassName('stlp')[0].style.position = "fixed";
-                // document.getElementsByClassName('stlp')[0].style.bottom = "3%";
-                chatButton.style.backgroundColor = "#5181d4";
-                if (window.innerWidth < 800) {
-                    document.getElementsByClassName('top-title')[0].style.flexDirection = "row";
-                    document.getElementsByClassName('avatar-wrapper')[0].style.flexDirection = "column";
-                    document.getElementsByClassName('avatar-wrapper')[0].style.height = "100%";
-                }
-                // MICONLY = false;
-                if(!MICONLY) {
-                    micControl.style.display = "none";
-                    audioControlContainer.style.display = "none";
-                    micControl.style.opacity = "0";
-                    universalAudioControl.style.opacity = "0";
-                    universalAudioControl.onmouseover = null;
-                    universalAudioControl.onmouseout = null;
-                    micControl.onmouseover = null;
-                    micControl.onmouseout = null;
-                    universalAudioControl.style.pointerEvents = "none";
-                    micControl.style.pointerEvents = "none";
-                    document.getElementById("audio-control-container").style.pointerEvents = "none";
-                    if (window.innerWidth < 800) {
+                
+                // Set global variables
+                MICONLY = avatarData.data.is_mic_only;
+                AVATAR_ENABLED = avatarData.data.avatar_enable;
+                console.log("Global variables set: MICONLY =", MICONLY, "AVATAR_ENABLED =", AVATAR_ENABLED);
+                
+                // Apply mic settings
+                if (!MICONLY) {
+                    console.log("Applying mic settings (MICONLY is false)");
+                    if (micControl) {
+                        micControl.style.display = "none";
+                        micControl.style.opacity = "0";
+                        micControl.onmouseover = null;
+                        micControl.onmouseout = null;
+                        micControl.style.pointerEvents = "none";
+                    }
+                    
+                    if (audioControlContainer) {
+                        audioControlContainer.style.display = "none";
+                    }
+                    
+                    if (universalAudioControl) {
+                        universalAudioControl.style.opacity = "0";
+                        universalAudioControl.onmouseover = null;
+                        universalAudioControl.onmouseout = null;
+                        universalAudioControl.style.pointerEvents = "none";
+                    }
+                    
+                    if (endChatIcon && window.innerWidth < 800) {
                         endChatIcon.style.width = "75%";
                     }
-                    speedMap[avatarData?.data?.audio_speed] || 1.2;
-                    // if(avatarData.data.audio_speed == "slow"){
-                    //     AUDIOSPEED = 1;
-                    // }else if(avatarData.data.audio_speed == "medium"){
-                    //     AUDIOSPEED = 1.2;
-                    // }else if (avatarData.data.audio_speed == "fast"){
-                    //     AUDIOSPEED = 1.5;
-                    // }
+                    
+                    // Set audio speed
+                    if (avatarData?.data?.audio_speed) {
+                        AUDIOSPEED = speedMap[avatarData.data.audio_speed] || 1.2;
+                        console.log("Audio speed set to:", AUDIOSPEED);
+                    }
                 }
+                
+                // Apply avatar settings
+                if (!AVATAR_ENABLED) {
+                    console.log("Applying avatar settings (AVATAR_ENABLED is false)");
+                    MICONLY = false;
+                    
+                    if (avatarContainer) avatarContainer.style.display = "none";
+                    if (avatarVideoa) avatarVideoa.style.display = "none";
+                    
+                    const rElements = document.getElementsByClassName('r');
+                    if (rElements.length > 0) rElements[0].style.width = "auto";
+                    
+                    if (avatarNameContainer) avatarNameContainer.style.display = "none";
+                    
+                    if (chatButton) chatButton.style.backgroundColor = "#5181d4";
+                    
+                    if (window.innerWidth < 800) {
+                        const topTitleElements = document.getElementsByClassName('top-title');
+                        if (topTitleElements.length > 0) topTitleElements[0].style.flexDirection = "row";
+                        
+                        const avatarWrapperElements = document.getElementsByClassName('avatar-wrapper');
+                        if (avatarWrapperElements.length > 0) {
+                            avatarWrapperElements[0].style.flexDirection = "column";
+                            avatarWrapperElements[0].style.height = "100%";
+                        }
+                    }
+                    
+                    // Apply mic settings again if needed
+                    if (!MICONLY) {
+                        console.log("Applying mic settings again (MICONLY is false inside AVATAR_ENABLED block)");
+                        if (micControl) {
+                            micControl.style.display = "none";
+                            micControl.style.opacity = "0";
+                            micControl.onmouseover = null;
+                            micControl.onmouseout = null;
+                            micControl.style.pointerEvents = "none";
+                        }
+                        
+                        if (audioControlContainer) {
+                            audioControlContainer.style.display = "none";
+                        }
+                        
+                        if (universalAudioControl) {
+                            universalAudioControl.style.opacity = "0";
+                            universalAudioControl.onmouseover = null;
+                            universalAudioControl.onmouseout = null;
+                            universalAudioControl.style.pointerEvents = "none";
+                        }
+                        
+                        if (endChatIcon && window.innerWidth < 800) {
+                            endChatIcon.style.width = "75%";
+                        }
+                        
+                        // Set audio speed
+                        if (avatarData?.data?.audio_speed) {
+                            AUDIOSPEED = speedMap[avatarData.data.audio_speed] || 1.2;
+                            console.log("Audio speed set to:", AUDIOSPEED);
+                        }
+                    }
+                }
+                
+                // Update the small video in the chat button
+                const buttonVideo = debugElement("avatar-videoa", "ButtonVideo");
+                if (buttonVideo && avatarData.data.avatar_idle) {
+                    buttonVideo.src = avatarData.data.avatar_idle;
+                    console.log("Button video source set");
+                }
+                
+                // Make sure the chat button is visible
+                if (chatButton) {
+                    chatButton.style.display = "flex";
+                    chatButton.style.opacity = "1";
+                    console.log("Chat button made visible");
+                }
+                
+                console.log("Initialization completed successfully");
+            } catch (error) {
+                console.error("Error during initialization:", error);
             }
-        
-        // Update the small video in the chat button
-        const buttonVideo = document.getElementById('avatar-videoa');
-        if (buttonVideo) {
-            buttonVideo.src = avatarData.data.avatar_idle;
-        }
         })();
         
         video.playbackRate = 0.8; // Adjust video speed
@@ -1557,6 +1620,211 @@
         //             .stop-command-hint {
         //                 position: fixed;
         //                 bottom: 150px;
+        //                 right: 30px;
+        //                 background: rgba(42, 54, 99, 0.9);
+        //                 color: white;
+        //                 padding: 12px 18px;
+        //                 border-radius: 20px;
+        //                 display: flex;
+        //                 align-items: center;
+        //                 gap: 10px;
+        //                 z-index: 2000;
+        //                 font-family: 'Poppins', sans-serif;
+        //                 font-size: 15px;
+        //                 font-weight: 500;
+        //                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        //                 animation: fadeInUp 0.3s ease forwards;
+        //                 border: 2px solid rgba(255, 255, 255, 0.3);
+        //             }
+        
+        //             .command-listening-pulse {
+        //                 width: 14px;
+        //                 height: 14px;
+        //                 background-color: #ff4444;
+        //                 border-radius: 50%;
+        //                 animation: pulse 1.5s infinite;
+        //                 box-shadow: 0 0 10px rgba(255, 68, 68, 0.7);
+        //             }
+        
+        //             .command-recognized {
+        //                 background: rgba(76, 175, 80, 0.8);
+        //                 animation: fadeInOut 2s ease forwards;
+        //             }
+        
+        //             .ready-for-question {
+        //                 background: rgba(42, 54, 99, 0.9);
+        //                 border: 2px solid rgba(255, 255, 255, 0.5);
+        //             }
+        
+        //             .ready-for-question .command-listening-pulse {
+        //                 background-color: #4CAF50;
+        //                 box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+        //             }
+        
+        //             @keyframes pulse {
+        //                 0% {
+        //                     transform: scale(0.8);
+        //                     opacity: 0.8;
+        //                 }
+        //                 50% {
+        //                     transform: scale(1.2);
+        //                     opacity: 1;
+        //                 }
+        //                 100% {
+        //                     transform: scale(0.8);
+        //                     opacity: 0.8;
+        //                 }
+        //             }
+        
+        //             @keyframes fadeInUp {
+        //                 from {
+        //                     opacity: 0;
+        //                     transform: translateY(20px);
+        //                 }
+        //                 to {
+        //                     opacity: 1;
+        //                     transform: translateY(0);
+        //                 }
+        //             }
+        
+        //             @keyframes fadeInOut {
+        //                 0% {
+        //                     opacity: 0;
+        //                     transform: translateY(20px);
+        //                 }
+        //                 20% {
+        //                     opacity: 1;
+        //                     transform: translateY(0);
+        //                 }
+        //                 80% {
+        //                     opacity: 1;
+        //                     transform: translateY(0);
+        //                 }
+        //                 100% {
+        //                     opacity: 0;
+        //                     transform: translateY(-20px);
+        //                 }
+        //             }
+        
+        //             @keyframes fadeOut {
+        //                 from {
+        //                     opacity: 1;
+        //                 }
+        //                 to {
+        //                     opacity: 0;
+        //                 }
+        //             }
+        
+        //             .stop-command-hint {
+        //                 position: fixed;
+        //                 bottom: 150px;
+        //                 right: 30px;
+        //                 background: rgba(42, 54, 99, 0.9);
+        //                 color: white;
+        //                 padding: 12px 18px;
+        //                 border-radius: 20px;
+        //                 display: flex;
+        //                 align-items: center;
+        //                 gap: 10px;
+        //                 z-index: 2000;
+        //                 font-family: 'Poppins', sans-serif;
+        //                 font-size: 15px;
+        //                 font-weight: 500;
+        //                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        //                 animation: fadeInUp 0.3s ease forwards;
+        //                 border: 2px solid rgba(255, 255, 255, 0.3);
+        //             }
+        //         }
+        //     }
+        // }
+        // Add this debugging function at the top of your file
+        function debugElement(id, operation) {
+            const element = document.getElementById(id);
+            console.log(`${operation} element "${id}": ${element ? "FOUND" : "NOT FOUND"}`);
+            return element;
+        }
+
+        // Add this at the end of your file to ensure the chat button is shown
+        setTimeout(() => {
+            const chatButton = document.getElementById("chat-button");
+            if (chatButton) {
+                console.log("Ensuring chat button is visible (delayed check)");
+                chatButton.style.display = "flex";
+                chatButton.style.opacity = "1";
+            } else {
+                console.error("Chat button still not found after delay");
+                // Create a fallback button if needed
+                createFallbackButton();
+            }
+        }, 3000);
+
+        // Fallback button creation
+        function createFallbackButton() {
+            console.log("Creating fallback chat button");
+            const existingContainer = document.getElementById("chatbot-container") || document.body;
+            
+            const fallbackButton = document.createElement("div");
+            fallbackButton.id = "fallback-chat-button";
+            fallbackButton.style.position = "fixed";
+            fallbackButton.style.bottom = "20px";
+            fallbackButton.style.right = "20px";
+            fallbackButton.style.width = "60px";
+            fallbackButton.style.height = "60px";
+            fallbackButton.style.borderRadius = "50%";
+            fallbackButton.style.backgroundColor = "#4a86e8";
+            fallbackButton.style.boxShadow = "0 2px 10px rgba(0,0,0,0.2)";
+            fallbackButton.style.cursor = "pointer";
+            fallbackButton.style.display = "flex";
+            fallbackButton.style.alignItems = "center";
+            fallbackButton.style.justifyContent = "center";
+            fallbackButton.style.zIndex = "9999";
+            
+            const img = document.createElement("img");
+            img.src = "https://dasmeet9.github.io/model/unnamed.png";
+            img.style.width = "70%";
+            img.style.height = "70%";
+            img.style.borderRadius = "50%";
+            
+            fallbackButton.appendChild(img);
+            existingContainer.appendChild(fallbackButton);
+            
+            fallbackButton.addEventListener("click", function() {
+                alert("Chat functionality is currently unavailable. Please try again later.");
+            });
+        }
+    }
+}
+// Add this debugging function at the top of your file
+function debugElement(id, operation) {
+    const element = document.getElementById(id);
+    console.log(`${operation} element "${id}": ${element ? "FOUND" : "NOT FOUND"}`);
+    return element;
+}
+
+// Add this at the end of your file to ensure the chat button is shown
+setTimeout(() => {
+    const chatButton = document.getElementById("chat-button");
+    if (chatButton) {
+        console.log("Ensuring chat button is visible (delayed check)");
+        chatButton.style.display = "flex";
+        chatButton.style.opacity = "1";
+    } else {
+        console.error("Chat button still not found after delay");
+        // Create a fallback button if needed
+        createFallbackButton();
+    }
+}, 3000);
+
+// Fallback button creation
+function createFallbackButton() {
+    console.log("Creating fallback chat button");
+    const existingContainer = document.getElementById("chatbot-container") || document.body;
+    
+    const fallbackButton = document.createElement("div");
+    fallbackButton.id = "fallback-chat-button";
+    fallbackButton.style.position = "fixed";
+    fallbackButton.style.bottom = "20px";
+    fallbackButton.style.right = "20px";
         //                 right: 30px;
         //                 background: rgba(255, 255, 255, 0.9);
         //                 color: #333;
