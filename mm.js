@@ -307,84 +307,70 @@
         // }
         
         const fetchAvatarData = async () => {
+            const result = await Settingss();
+        
+            if (!result.success) {
+                console.error("Error fetching avatar data:", result.error);
+                chatButton.style.display = "none";
+                document.getElementById("chat-button").style.display = "none";
+                return;
+            }
+        
+            avatarData = result.data;
+        
+            // Parse messages safely
+            let rawMessages = avatarData.data?.messages;
+            let parsedMessages = {};
+        
             try {
-                const result = await Settingss();
-                
-                if (!result.success) {
-                    console.error("Error fetching avatar data:", result.error);
-                    // Even if there's an error, we should still show the basic chatbot
-                    showBasicChatbot();
-                    return;
-                }
-                
-                avatarData = result.data;
-                
-                // Parse messages safely
-                let rawMessages = avatarData.data?.messages;
-                let parsedMessages = {};
-                
-                try {
-                    parsedMessages = typeof rawMessages === 'string' ? JSON.parse(rawMessages) : rawMessages;
-                } catch (e) {
-                    console.warn("Failed to parse messages, using empty fallback.");
-                    parsedMessages = {};
-                }
-                
-                messages = { ...parsedMessages };
-                
-                // Show the chatbot button after data is loaded
-                showChatbotButton();
-                
-                return avatarData;
-            } catch (error) {
-                console.error("Error in fetchAvatarData:", error);
-                // Show basic chatbot even if there's an error
-                showBasicChatbot();
+                parsedMessages = typeof rawMessages === 'string' ? JSON.parse(rawMessages) : rawMessages;
+            } catch (e) {
+                console.warn("Failed to parse messages, using empty fallback.");
+                parsedMessages = {};
+            }
+        
+            messages = { ...parsedMessages };
+        
+            if (!avatarData.data) {
+                console.error("avatarData.data is undefined");
+                chatButton.style.display = "none";
+                document.getElementById("chat-button").style.display = "none";
             }
         };
-
-        // Add these helper functions to ensure the UI is shown
-        function showChatbotButton() {
-            const chatButton = document.getElementById("chat-button");
-            if (chatButton) {
-                chatButton.style.display = "flex";
-                chatButton.style.opacity = "1";
-            } else {
-                console.error("Chat button element not found");
-            }
-        }
-
-        function showBasicChatbot() {
-            // Show a basic version of the chatbot if we can't load the avatar data
-            const chatButton = document.getElementById("chat-button");
-            if (chatButton) {
-                // Remove video elements that might be causing errors
-                const videoElement = document.getElementById("avatar-videoa");
-                if (videoElement) {
-                    videoElement.style.display = "none";
-                }
-                
-                // Show just the logo or a default image
-                const imgElement = chatButton.querySelector("img");
-                if (imgElement) {
-                    imgElement.style.display = "block";
-                    imgElement.style.width = "80%";
-                    imgElement.style.height = "80%";
-                    imgElement.style.borderRadius = "50%";
-                    imgElement.style.margin = "10px";
-                    // Use default image if needed
-                    if (!imgElement.src || imgElement.src === "") {
-                        imgElement.src = "https://dasmeet9.github.io/model/NiftyHMS%20(1).png";
-                    }
-                }
-                
-                chatButton.style.display = "flex";
-                chatButton.style.opacity = "1";
-            } else {
-                console.error("Chat button element not found");
-            }
-        }
-
+        
+        // const fetchAvatarData = async () => {
+        //     avatarData = await Settingss();
+        //     // messages = {...avatarData.messages};
+        //     // Safely parse and spread messages
+        //     let rawMessages = avatarData.data.messages;
+        //     let parsedMessages = {};
+        
+        //     try {
+        //         parsedMessages = typeof rawMessages === 'string' ? JSON.parse(rawMessages) : rawMessages;
+        //     } catch (e) {
+        //         parsedMessages = {};
+        //     }
+        
+        //     // messages = { ...defaultMessages, ...parsedMessages };
+        //     messages = {  ...parsedMessages};
+        //  //  console.log("messages",messages);
+        // //  console.log("messages-welcome",messages.welcome);
+        //     // messages = {...avatarData.data.messages};
+        //     // console.log("skdjfsdfhdskfh",messages)
+        //     if (avatarData.error) {
+        //         console.log("Error fetching avatar data:", avatarData.error);
+        //         chatButton.style.display = "none";
+        //         document.getElementById("chat-button").style.display = "none";
+        //         return;
+        //     }
+        //     if (!avatarData.data || avatarData.data == undefined) {
+        //         console.log("Error fetching avatar data:", avatarData.error);
+        //         chatButton.style.display = "none";
+        //         document.getElementById("chat-button").style.display = "none";
+        //         return;
+        //     }
+        // };
+        
         // Wait for data before using it
         (async () => {
             await fetchAvatarData();
