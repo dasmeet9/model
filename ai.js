@@ -2,9 +2,9 @@
     // Load CSS
     var link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "https://yourdomain.com/style.css"; // update with your real CSS URL
+    link.href = "https://dasmeet9.github.io/model/style.css"; // update with your real CSS URL
     document.head.appendChild(link);
-  
+    
     // Create chatbot container
     var chatbot = document.createElement("div");
     chatbot.id = "ai-chatbot-container";
@@ -20,7 +20,7 @@
     chatbot.style.overflow = "hidden";
   
     // Load chatbot HTML from external file
-    fetch("https://yourdomain.com/a.html") // update with your real HTML URL
+    fetch("https://dasmeet9.github.io/model/a.html") // update with your real HTML URL
       .then(res => res.text())
       .then(html => {
         chatbot.innerHTML = html;
