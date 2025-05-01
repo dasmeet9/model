@@ -21,7 +21,22 @@ video::-webkit-media-controls-enclosure {
 video::-webkit-media-controls-panel {
     display: none !important;
 }
-
+.stop-command-hint {
+    /* position: fixed; */
+    /* bottom: 70px; */
+    right: 30px;
+    padding: 8px 15px;
+     background: rgba(255, 255, 255, 0.9);
+     color: #333;
+     padding: 8px 15px;
+     border-radius: 20px;
+     font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 2000;
+     transition: opacity 0.5s ease;
+     border: 1px solid rgba(0, 0, 0, 0.1);
+ }
 /* end-chat-btn container */
 /* End Chat Button Styles */
 .end-chat-container {
@@ -73,6 +88,9 @@ video::-webkit-media-controls-panel {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+.confirmation-content {
+    padding: 20px;
 }
 
 #end-chat:hover {
@@ -164,6 +182,65 @@ video::-webkit-media-controls-panel {
     justify-content: center;
     gap: 15px;
     margin-top: 20px;
+}
+
+.confirmation-popup-chat input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin: 15px 0;
+    border: 1px solid #dbdbdb;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.3s ease;
+}
+
+.confirmation-popup-chat input[type="email"]:focus {
+    outline: none;
+    border-color: #5181d4;
+}
+
+.confirmation-popup-chat input[type="email"].error {
+    border-color: #ff4444;
+}
+
+/* Update confirmation buttons styling */
+.confirmation-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.confirm-btn, .cancel-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.confirm-btn {
+    background: linear-gradient(135deg, #2A3663 0%, #1a2544 100%);
+    color: white;
+}
+
+.confirm-btn:hover {
+    background: linear-gradient(135deg, #1a2544 0%, #131b32 100%);
+    transform: translateY(-1px);
+}
+
+.cancel-btn {
+    background: #f44336;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background: #d32f2f;
+    transform: translateY(-1px);
 }
 
 /* Confirmation Popup Styles */
@@ -568,6 +645,7 @@ button {
     align-items: center;
     /* padding: 0 10px; */
     width: 100%;
+    min-height: 50px;
 }
 
 .form-belowline2 {
@@ -920,21 +998,138 @@ body #audio-control-container #universal-audio-control.muted .mute-line {
 
 /* Add animation for active state */
 .mic-control-btn.active {
-    animation: pulseAnimation 1.5s ease-in-out infinite;
+    animation: none; /* Remove the old animation */
+    position: relative;
+    z-index: 100;
 }
 
-@keyframes pulseAnimation {
+.mic-control-btn.active .mic-body,
+.mic-control-btn.active .mic-stand,
+.mic-control-btn.active .mic-base {
+    stroke: #2A3663 !important;
+    animation: micPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes micPulse {
+    0% { stroke-width: 1.5; }
+    50% { stroke-width: 2.5; }
+    100% { stroke-width: 1.5; }
+}
+
+/* Add wave animation container */
+.mic-control-btn.active::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(42, 54, 99, 0.1);
+    z-index: -1;
+    animation: waveExpand 2s ease-in-out infinite;
+}
+
+/* Add multiple wave rings */
+.mic-control-btn.active::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(42, 54, 99, 0.05);
+    z-index: -2;
+    animation: waveExpand 2s ease-in-out infinite 0.5s;
+}
+
+@keyframes waveExpand {
     0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(42, 54, 99, 0.4);
-    }
-    70% {
-        transform: scale(1.05);
-        box-shadow: 0 0 0 10px rgba(42, 54, 99, 0);
+        width: 100%;
+        height: 100%;
+        opacity: 0.7;
     }
     100% {
+        width: 200%;
+        height: 200%;
+        opacity: 0;
+    }
+}
+
+/* Siri-like wave animation */
+.mic-waves-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    overflow: hidden;
+    border-radius: 0 0 50% 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.mic-control-btn.active .mic-waves-container {
+    opacity: 1;
+}
+
+.mic-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(42, 54, 99, 0.1);
+    border-radius: 50%;
+    transform-origin: center bottom;
+}
+
+.mic-wave:nth-child(1) {
+    animation: waveAnimation 1.5s ease-in-out infinite;
+}
+
+.mic-wave:nth-child(2) {
+    animation: waveAnimation 1.5s ease-in-out infinite 0.2s;
+}
+
+.mic-wave:nth-child(3) {
+    animation: waveAnimation 1.5s ease-in-out infinite 0.4s;
+}
+
+.mic-wave:nth-child(4) {
+    animation: waveAnimation 1.5s ease-in-out infinite 0.6s;
+}
+
+@keyframes waveAnimation {
+    0% {
+        transform: scaleY(0.1);
+    }
+    50% {
+        transform: scaleY(0.5);
+    }
+    100% {
+        transform: scaleY(0.1);
+    }
+}
+
+/* Zoom effect when active */
+.mic-control-btn.active svg {
+    animation: zoomEffect 0.5s ease forwards;
+}
+
+@keyframes zoomEffect {
+    0% {
         transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(42, 54, 99, 0);
+    }
+    50% {
+        transform: scale(1.2) translateY(-5px);
+    }
+    100% {
+        transform: scale(1.15) translateY(-3px);
     }
 }
 
@@ -1178,6 +1373,97 @@ body #audio-control-container #universal-audio-control.muted .mute-line {
 }
 
 
+/* //////////////////////////////////////////////////////////////////////////// */
+.email-capture-modal {
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    right: 10px;
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.email-capture-content p {
+    margin: 0 0 10px;
+    font-size: 14px;
+}
+
+.email-input-container {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.error-message {
+    color: #ff4444 !important;
+    font-size: 10px !important;
+    margin: 2px 0 0 0 !important;
+    padding: 0;
+    display: none;
+    text-align: center !important;
+    font-weight: normal;
+}
+
+#submit-email-btn {
+    background-color: #1d2747;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#submit-email-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+#cancel-email-btn {
+    background-color: #1d2747;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#user-email-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    margin-bottom: 0;
+}
+
+#user-email-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+#user-email-input.invalid {
+    border-color: #ff4444;
+}
+
+.confirmation-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.confirmation-content {
+    padding: 20px;
+}
+
+/* /////////////////////////////////////////// */
+
 /* Responsive styles */
 @media screen and (max-width: 800px) {
     .chat-container {
@@ -1185,6 +1471,13 @@ body #audio-control-container #universal-audio-control.muted .mute-line {
         right: 2.5%;
         left: 49%;
         height: 75%;
+    }
+    .confirmation-content{
+        padding: 10px 20px;
+        p{
+            margin: 0;
+            font-size: 15px;
+        }
     }
 
     .bootm {
@@ -1294,8 +1587,7 @@ body #audio-control-container #universal-audio-control.muted .mute-line {
     }
     /* #close-btn23 {
         bottom: 78%;
-        right: 18px;
-    } */
+        right: 3%; */
     #close-btn23 {
         bottom: 76%;
         right: 3px;
@@ -1365,7 +1657,7 @@ body #audio-control-container #universal-audio-control.muted .mute-line {
     
     .form-belowline2 {
         width: 100%;
-        justify-content: space-between;
+        justify-content: flex-end;
     }
     
     .avatar-container {
@@ -1419,3 +1711,45 @@ body #audio-control-container #universal-audio-control.muted .mute-line {
         height: 12px;
     }
 }
+.error-message {
+    color: #ff4444;
+    font-size: 12px;
+    margin: 5px 0;
+    display: none;
+    text-align: left;
+}
+
+#submit-email-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+#user-email-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+#user-email-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+#user-email-input.invalid {
+    border-color: #ff4444;
+}
+
+.confirmation-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+
+
