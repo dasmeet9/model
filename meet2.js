@@ -154,8 +154,25 @@
     }
   
     // Initialize widget functionality and event listeners
-    function initWidget(options) {
+    async function initWidget(options) {
+        const config = extend({}, defaults, options);
+        const container = document.getElementById(config.containerId);
+        
+        if (!container) {
+            console.error('Container element not found');
+            return;
+        }
+
+        // First load CSS
+        loadCSS(config.cssUrl);
+
+        // Then create the widget HTML
+        createWidgetHTML(container, config);
+        
+        // Only after HTML is created, initialize the rest
         const apiConfig = typeof aiAgentConfig !== 'undefined' ? aiAgentConfig : {};
+        
+        // Now get DOM elements after they exist
         const form = document.getElementById("text-form");
         const textArea = document.getElementById("text");
         const chatHistory = document.querySelector(".chat_history");
@@ -330,7 +347,7 @@
             }
         
             messages = { ...parsedMessages };
-        
+            console.log(messages);
             if (!avatarData.data) {
                 console.error("avatarData.data is undefined");
                 chatButton.style.display = "none";
@@ -374,6 +391,8 @@
         // Wait for data before using it
         (async () => {
             await fetchAvatarData();
+            console.log(avatarData)
+            
             video.src = avatarData.data.avatar_speaking;
             videoIdle.src = avatarData.data.avatar_idle;
             document.getElementById("avatar-name-text").textContent = avatarData.data.avatar_name;
@@ -535,6 +554,14 @@
         function hasExistingGreeting() {
             try {
                 const chatHistory = JSON.parse(localStorage.getItem("chat_history")) || [];
+                console.log('Current messages object:', messages); // Debug log
+                console.log('namePrompt:', messages?.namePrompt); // Debug log with optional chaining
+        
+                if (!messages || !messages.namePrompt) {
+                    console.warn('Messages not yet initialized');
+                    return false;
+                }
+
                 return chatHistory.some(entry =>
                     entry.type === 'chat' &&
                     entry.user === 'bot' &&
