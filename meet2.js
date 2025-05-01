@@ -3257,8 +3257,23 @@
     };
   })();
   
-ChatbotWidget.init({
-       containerId: 'chatbot-container', 
-       cssUrl: 'https://dasmeet9.github.io/model/style.css'
-});
-const BACKENDURL = 'http://127.0.0.1:5000';
+  // Wait for DOM to be fully loaded before initializing
+  document.addEventListener('DOMContentLoaded', function() {
+    // Create container if it doesn't exist
+    if (!document.getElementById('chatbot-container')) {
+      const chatbotContainer = document.createElement("div");
+      chatbotContainer.id = "chatbot-container";
+      document.body.appendChild(chatbotContainer);
+    }
+    
+    // Initialize with a slight delay to ensure everything is loaded
+    setTimeout(function() {
+      ChatbotWidget.init({
+        containerId: 'chatbot-container', 
+        cssUrl: 'https://dasmeet9.github.io/model/style.css'
+      });
+    }, 500);
+  });
+
+  // Use a production URL for backend, not localhost
+  const BACKENDURL = 'http://127.0.0.1:5000/api';
