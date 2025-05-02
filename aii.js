@@ -177,10 +177,10 @@
         let BACKEND_URL = false;
 
         if (typeof aiAgentConfig !== 'undefined' && aiAgentConfig.backendUrl) {
-            BACKEND_URL = aiAgentConfig.backendUrl;
+            BACKEND_URL = "https://aiservice.yaraamanager.com/api";
         } else {
             // Default fallback URLs
-            BACKEND_URL = "http://127.0.0.1:5000/api";
+            BACKEND_URL = "https://aiservice.yaraamanager.com/api";
             // BACKEND_URL = 'https://aiservice.yaraamanager.com/api';
         }
         let speechDetectionFrameId = null;
