@@ -3928,176 +3928,176 @@ const fetchAvatarData = async () => {
     };
 
     // Initialize when DOM is ready
-    // function initializeChatbot() {
-    //     try {
-    //         // Check if the DOM is ready
-    //         if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    //             // Small delay to ensure DOM is fully ready
-    //             setTimeout(function() {
-    //                 try {
-    //                     // Initialize the chatbot
-    //                     init();
+    function initializeChatbot() {
+        try {
+            // Check if the DOM is ready
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                // Small delay to ensure DOM is fully ready
+                setTimeout(function() {
+                    try {
+                        // Initialize the chatbot
+                        init();
 
-    //                     // After initialization, explicitly load chat history and show the chat container
-    //                     setTimeout(function() {
-    //                         try {
-    //                             // Force load chat history
-    //                             const chatHistoryElement = document.querySelector(".chat_history");
-    //                             if (chatHistoryElement) {
-    //                                 // Check if we have chat history in localStorage
-    //                                 const storedHistory = localStorage.getItem("chat_history");
-    //                                 if (storedHistory) {
-    //                                     try {
-    //                                         // Parse the stored history
-    //                                         const parsedHistory = JSON.parse(storedHistory);
+                        // After initialization, explicitly load chat history and show the chat container
+                        setTimeout(function() {
+                            try {
+                                // Force load chat history
+                                const chatHistoryElement = document.querySelector(".chat_history");
+                                if (chatHistoryElement) {
+                                    // Check if we have chat history in localStorage
+                                    const storedHistory = localStorage.getItem("chat_history");
+                                    if (storedHistory) {
+                                        try {
+                                            // Parse the stored history
+                                            const parsedHistory = JSON.parse(storedHistory);
 
-    //                                         // If we have chat history, make sure the chat container is visible
-    //                                         if (Array.isArray(parsedHistory) && parsedHistory.length > 0) {
-    //                                             console.log("Found chat history with " + parsedHistory.length + " messages, displaying...");
+                                            // If we have chat history, make sure the chat container is visible
+                                            if (Array.isArray(parsedHistory) && parsedHistory.length > 0) {
+                                                console.log("Found chat history with " + parsedHistory.length + " messages, displaying...");
 
-    //                                             // Clear current UI before loading
-    //                                             chatHistoryElement.innerHTML = "";
+                                                // Clear current UI before loading
+                                                chatHistoryElement.innerHTML = "";
 
-    //                                             // Load each message into the UI
-    //                                             parsedHistory.forEach(entry => {
-    //                                                 if (entry.type === 'chat') {
-    //                                                     const bubble = document.createElement('div');
-    //                                                     bubble.className = `chat-bubble ${entry.user}`;
-    //                                                     bubble.innerHTML = entry.message;
-    //                                                     chatHistoryElement.appendChild(bubble);
-    //                                                 }
-    //                                             });
+                                                // Load each message into the UI
+                                                parsedHistory.forEach(entry => {
+                                                    if (entry.type === 'chat') {
+                                                        const bubble = document.createElement('div');
+                                                        bubble.className = `chat-bubble ${entry.user}`;
+                                                        bubble.innerHTML = entry.message;
+                                                        chatHistoryElement.appendChild(bubble);
+                                                    }
+                                                });
 
-    //                                             // Scroll to the bottom of the chat history
-    //                                             chatHistoryElement.scrollTop = chatHistoryElement.scrollHeight;
+                                                // Scroll to the bottom of the chat history
+                                                chatHistoryElement.scrollTop = chatHistoryElement.scrollHeight;
 
-    //                                             // Make the chat container visible
-    //                                             const chatContainer = document.querySelector(".chat-container");
-    //                                             if (chatContainer) {
-    //                                                 chatContainer.classList.add("active");
+                                                // Make the chat container visible
+                                                const chatContainer = document.querySelector(".chat-container");
+                                                if (chatContainer) {
+                                                    chatContainer.classList.add("active");
 
-    //                                                 const chatButton = document.getElementById("chat-button");
-    //                                                 if (chatButton) {
-    //                                                     chatButton.style.transform = "scale(0)";
-    //                                                 }
+                                                    const chatButton = document.getElementById("chat-button");
+                                                    if (chatButton) {
+                                                        chatButton.style.transform = "scale(0)";
+                                                    }
 
-    //                                                 const closeButton = document.getElementById("close-btn23");
-    //                                                 if (closeButton) {
-    //                                                     closeButton.style.display = "block";
-    //                                                 }
+                                                    const closeButton = document.getElementById("close-btn23");
+                                                    if (closeButton) {
+                                                        closeButton.style.display = "block";
+                                                    }
 
-    //                                                 // Enable the end chat button
-    //                                                 const endChatIcon = document.querySelector("#end-chat");
-    //                                                 if (endChatIcon) {
-    //                                                     endChatIcon.style.opacity = "1";
-    //                                                     endChatIcon.style.cursor = "pointer";
-    //                                                 }
-    //                                             }
-    //                                         }
-    //                                     } catch (error) {
-    //                                         console.error("Error parsing chat history during initialization:", error);
-    //                                     }
-    //                                 }
-    //                             }
-    //                         } catch (error) {
-    //                             console.error("Error loading chat history after initialization:", error);
-    //                         }
-    //                     }, 1000); // Additional delay to ensure everything is ready
+                                                    // Enable the end chat button
+                                                    const endChatIcon = document.querySelector("#end-chat");
+                                                    if (endChatIcon) {
+                                                        endChatIcon.style.opacity = "1";
+                                                        endChatIcon.style.cursor = "pointer";
+                                                    }
+                                                }
+                                            }
+                                        } catch (error) {
+                                            console.error("Error parsing chat history during initialization:", error);
+                                        }
+                                    }
+                                }
+                            } catch (error) {
+                                console.error("Error loading chat history after initialization:", error);
+                            }
+                        }, 1000); // Additional delay to ensure everything is ready
 
-    //                     console.log("Chatbot initialized successfully");
-    //                 } catch (error) {
-    //                     console.error("Error initializing chatbot:", error);
-    //                 }
-    //             }, 500); // Increased delay to ensure DOM is fully ready
-    //         } else {
-    //             // Wait for DOM to be ready
-    //             document.addEventListener('DOMContentLoaded', function() {
-    //                 setTimeout(function() {
-    //                     try {
-    //                         // Initialize the chatbot
-    //                         init();
+                        console.log("Chatbot initialized successfully");
+                    } catch (error) {
+                        console.error("Error initializing chatbot:", error);
+                    }
+                }, 500); // Increased delay to ensure DOM is fully ready
+            } else {
+                // Wait for DOM to be ready
+                document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(function() {
+                        try {
+                            // Initialize the chatbot
+                            init();
 
-    //                         // After initialization, explicitly load chat history and show the chat container
-    //                         setTimeout(function() {
-    //                             try {
-    //                                 // Force load chat history
-    //                                 const chatHistoryElement = document.querySelector(".chat_history");
-    //                                 if (chatHistoryElement) {
-    //                                     // Check if we have chat history in localStorage
-    //                                     const storedHistory = localStorage.getItem("chat_history");
-    //                                     if (storedHistory) {
-    //                                         try {
-    //                                             // Parse the stored history
-    //                                             const parsedHistory = JSON.parse(storedHistory);
+                            // After initialization, explicitly load chat history and show the chat container
+                            setTimeout(function() {
+                                try {
+                                    // Force load chat history
+                                    const chatHistoryElement = document.querySelector(".chat_history");
+                                    if (chatHistoryElement) {
+                                        // Check if we have chat history in localStorage
+                                        const storedHistory = localStorage.getItem("chat_history");
+                                        if (storedHistory) {
+                                            try {
+                                                // Parse the stored history
+                                                const parsedHistory = JSON.parse(storedHistory);
 
-    //                                             // If we have chat history, make sure the chat container is visible
-    //                                             if (Array.isArray(parsedHistory) && parsedHistory.length > 0) {
-    //                                                 console.log("Found chat history with " + parsedHistory.length + " messages, displaying...");
+                                                // If we have chat history, make sure the chat container is visible
+                                                if (Array.isArray(parsedHistory) && parsedHistory.length > 0) {
+                                                    console.log("Found chat history with " + parsedHistory.length + " messages, displaying...");
 
-    //                                                 // Clear current UI before loading
-    //                                                 chatHistoryElement.innerHTML = "";
+                                                    // Clear current UI before loading
+                                                    chatHistoryElement.innerHTML = "";
 
-    //                                                 // Load each message into the UI
-    //                                                 parsedHistory.forEach(entry => {
-    //                                                     if (entry.type === 'chat') {
-    //                                                         const bubble = document.createElement('div');
-    //                                                         bubble.className = `chat-bubble ${entry.user}`;
-    //                                                         bubble.innerHTML = entry.message;
-    //                                                         chatHistoryElement.appendChild(bubble);
-    //                                                     }
-    //                                                 });
+                                                    // Load each message into the UI
+                                                    parsedHistory.forEach(entry => {
+                                                        if (entry.type === 'chat') {
+                                                            const bubble = document.createElement('div');
+                                                            bubble.className = `chat-bubble ${entry.user}`;
+                                                            bubble.innerHTML = entry.message;
+                                                            chatHistoryElement.appendChild(bubble);
+                                                        }
+                                                    });
 
-    //                                                 // Scroll to the bottom of the chat history
-    //                                                 chatHistoryElement.scrollTop = chatHistoryElement.scrollHeight;
+                                                    // Scroll to the bottom of the chat history
+                                                    chatHistoryElement.scrollTop = chatHistoryElement.scrollHeight;
 
-    //                                                 // Make the chat container visible
-    //                                                 const chatContainer = document.querySelector(".chat-container");
-    //                                                 if (chatContainer) {
-    //                                                     chatContainer.classList.add("active");
+                                                    // Make the chat container visible
+                                                    const chatContainer = document.querySelector(".chat-container");
+                                                    if (chatContainer) {
+                                                        chatContainer.classList.add("active");
 
-    //                                                     const chatButton = document.getElementById("chat-button");
-    //                                                     if (chatButton) {
-    //                                                         chatButton.style.transform = "scale(0)";
-    //                                                     }
+                                                        const chatButton = document.getElementById("chat-button");
+                                                        if (chatButton) {
+                                                            chatButton.style.transform = "scale(0)";
+                                                        }
 
-    //                                                     const closeButton = document.getElementById("close-btn23");
-    //                                                     if (closeButton) {
-    //                                                         closeButton.style.display = "block";
-    //                                                     }
+                                                        const closeButton = document.getElementById("close-btn23");
+                                                        if (closeButton) {
+                                                            closeButton.style.display = "block";
+                                                        }
 
-    //                                                     // Enable the end chat button
-    //                                                     const endChatIcon = document.querySelector("#end-chat");
-    //                                                     if (endChatIcon) {
-    //                                                         endChatIcon.style.opacity = "1";
-    //                                                         endChatIcon.style.cursor = "pointer";
-    //                                                     }
-    //                                                 }
-    //                                             }
-    //                                         } catch (error) {
-    //                                             console.error("Error parsing chat history during initialization:", error);
-    //                                         }
-    //                                     }
-    //                                 }
-    //                             } catch (error) {
-    //                                 console.error("Error loading chat history after initialization:", error);
-    //                             }
-    //                         }, 1000); // Additional delay to ensure everything is ready
+                                                        // Enable the end chat button
+                                                        const endChatIcon = document.querySelector("#end-chat");
+                                                        if (endChatIcon) {
+                                                            endChatIcon.style.opacity = "1";
+                                                            endChatIcon.style.cursor = "pointer";
+                                                        }
+                                                    }
+                                                }
+                                            } catch (error) {
+                                                console.error("Error parsing chat history during initialization:", error);
+                                            }
+                                        }
+                                    }
+                                } catch (error) {
+                                    console.error("Error loading chat history after initialization:", error);
+                                }
+                            }, 1000); // Additional delay to ensure everything is ready
 
-    //                         console.log("Chatbot initialized successfully");
-    //                     } catch (error) {
-    //                         console.error("Error initializing chatbot:", error);
-    //                     }
-    //                 }, 500); // Increased delay to ensure DOM is fully ready
-    //             });
-    //         }
-    //     } catch (error) {
-    //         console.error("Error in initializeChatbot:", error);
-    //     }
-    // }
+                            console.log("Chatbot initialized successfully");
+                        } catch (error) {
+                            console.error("Error initializing chatbot:", error);
+                        }
+                    }, 500); // Increased delay to ensure DOM is fully ready
+                });
+            }
+        } catch (error) {
+            console.error("Error in initializeChatbot:", error);
+        }
+    }
 
-    // // Call initialization
-    // initializeChatbot();
+    // Call initialization
+    initializeChatbot();
 
-    // // Make initialization function available globally for external use
-    // window.initializeAiChatbot = initializeChatbot;
+    // Make initialization function available globally for external use
+    window.initializeAiChatbot = initializeChatbot;
 })();
