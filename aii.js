@@ -3130,7 +3130,7 @@ const fetchAvatarData = async () => {
                         <input type="email" id="user-email-input" placeholder="Enter your email" required>
                         <p class="error-message" style="display: none; color: red; font-size: 12px;">Invalid email format</p>
                         <div class="confirmation-buttons">
-                            <button type="button" class="" id="submit-email-btn"><b>Submit</b></button>
+                            <button type="button" class="" id="submit-email-btn">Submit</button>
                             <button type="button" class="cancel-btn" id="cancel-email-btn">Cancel</button>
                         </div>
                     </div>
