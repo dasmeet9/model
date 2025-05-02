@@ -85,9 +85,10 @@ video::-webkit-media-controls-panel {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(42, 54, 99, 0.2);
-    display: flex;
+    /* display: flex; */
     align-items: center;
     gap: 8px;
+    display:flex !important;
 }
 .confirmation-content {
     padding: 20px;
@@ -1750,6 +1751,7 @@ body #audio-control-container #universal-audio-control.muted .mute-line {
     justify-content: center;
     margin-top: 15px;
 }
+
 
 
 
