@@ -31,7 +31,7 @@
     </noscript>
     <div class="chat-button js-enabled" id="chat-button" >
         <video id="avatar-videoa" autoplay loop muted playsinline src=""
-        style="width: 100%; height: 100%; border-radius: 50%;" controlslist="nodownload noplaybackrate noremoteplayback " disablepictureinpicture></video>
+        style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; max-width: 100%; max-height: 100%;" controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicture></video>
 
         <img  style="width: 80%; height: 80%; border-radius: 50%;margin: 10px;" src="https://dasmeet9.github.io/model/NiftyHMS%20(1).png" alt="">
     </div>
@@ -60,9 +60,9 @@
                  <div class="avatar-container" id="avatar-container">
 
                     <video id="avatar-video" autoplay loop muted playsinline src=""
-                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none;"  disablepictureinpicture></video>
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none; max-width: 100vw; max-height: 100vh;" disablepictureinpicture></video>
                     <video id="avatar-idle" autoplay loop muted playsinline preload="auto" src=""
-                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"  disablepictureinpicture></video>
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; max-width: 100vw; max-height: 100vh;" disablepictureinpicture></video>
 
                 </div>
                 <div id="avatar-name">
@@ -722,6 +722,7 @@ const fetchAvatarData = async () => {
                             if (endChatIcon) {
                                 endChatIcon.style.opacity = "1";
                                 endChatIcon.style.cursor = "pointer";
+                                endChatIcon.disabled = false;
                             }
 
                             // Enable input controls and focus the text area
@@ -741,14 +742,27 @@ const fetchAvatarData = async () => {
                 isUserRegistered = checkExistingRegistration();
                 const hasGreeting = hasExistingGreeting();
 
+                // Clear any existing chat history in localStorage if starting a new conversation
+                if (!hasGreeting) {
+                    localStorage.removeItem('chat_history');
+                    localStorage.removeItem(CONVERSATION_ID_KEY);
+                }
+
                 if (!isUserRegistered && !hasGreeting) {
-                    console.log("both not")
+                    console.log("Starting new conversation with greeting");
                     // Only show registration greeting for new users without existing greeting
                     registrationStep = 'greeting';
 
                     // Add the chat bubble immediately
-                    console.log(messages.welcome)
+                    console.log(messages.welcome);
                     appendChatBubble("bot", `${messages.welcome} ${messages.namePrompt}`);
+
+                    // Enable the end chat button
+                    if (endChatIcon) {
+                        endChatIcon.style.opacity = "1";
+                        endChatIcon.style.cursor = "pointer";
+                        endChatIcon.disabled = false;
+                    }
 
                     // Use preloaded audio if available to reduce initial delay
                     if (preloadedWelcomeAudio && preloadedWelcomeAudio.length > 0) {
@@ -766,9 +780,8 @@ const fetchAvatarData = async () => {
                     }
 
                     localStorage.setItem("registrationStep", registrationStep);
-                    // startMicrophone();
 
-                }else if(!isUserRegistered && hasGreeting){
+                } else if(!isUserRegistered && hasGreeting) {
                     let steg = localStorage.getItem("registrationStep");
                     if (steg == "greeting") {
                         // Use preloaded audio if available
@@ -781,20 +794,31 @@ const fetchAvatarData = async () => {
                             await startMicrophone();
                         }
                     }
-                    // startMicrophone();
                 } else if (isUserRegistered && !hasGreeting) {
-                    console.log("only registered");
+                    console.log("User is registered, showing welcome back message");
                     // Only show welcome back message for registered users without existing greeting
                     const welcomeBack = messages.welcomeBack.replace('{name}', userData.name);
                     appendChatBubble("bot", welcomeBack);
+
+                    // Enable the end chat button
+                    if (endChatIcon) {
+                        endChatIcon.style.opacity = "1";
+                        endChatIcon.style.cursor = "pointer";
+                        endChatIcon.disabled = false;
+                    }
+
                     await processAndPlayTTS(welcomeBack);
                     enableInputControls();
                     focusTextArea();
                     await startMicrophone();
                 }
+
                 enableInputControls();
                 await startMicrophone();
                 focusTextArea();
+
+                // Setup end chat functionality
+                setupEndChatFunctionality();
             }
 
             // Function to play preloaded welcome audio
@@ -2990,8 +3014,10 @@ const fetchAvatarData = async () => {
                     });
                 }
             } else {
-                // If chat container is not active, start a new chat with the chat button
-                startnewchatwithchatbutton();
+                // If chat container is not active, don't automatically open it
+                // Just prepare for a new chat when the user clicks the chat button
+                console.log("Chat container not active, preparing for new chat when user clicks chat button");
+                // Don't call startnewchatwithchatbutton() to avoid automatically opening the chat
             }
         }
 
@@ -3016,6 +3042,7 @@ const fetchAvatarData = async () => {
             endChatBtn.style.cursor = "pointer";
             endChatBtn.style.pointerEvents = "auto";
             endChatBtn.style.display = "block";
+            endChatBtn.style.zIndex = "9999"; // Ensure it's above other elements in embedded contexts
 
             // Remove any existing event listeners to prevent duplicates
             const newEndChatBtn = endChatBtn.cloneNode(true);
@@ -3056,6 +3083,29 @@ const fetchAvatarData = async () => {
             // Use event delegation for the confirmation buttons
             document.removeEventListener('click', handleConfirmationButtons);
             document.addEventListener('click', handleConfirmationButtons);
+        }
+
+        // Function to ensure end chat button works in embedded contexts
+        function ensureEndChatButtonWorks() {
+            const endChatBtn = document.getElementById('end-chat');
+            if (endChatBtn) {
+                // Make sure the button is visible and clickable in all contexts
+                endChatBtn.disabled = false;
+                endChatBtn.style.opacity = "1";
+                endChatBtn.style.cursor = "pointer";
+                endChatBtn.style.pointerEvents = "auto";
+                endChatBtn.style.display = "block";
+                endChatBtn.style.zIndex = "9999"; // Ensure it's above other elements
+
+                // Make sure the parent container is also properly configured
+                const formBelowline = endChatBtn.closest('.form-belowline');
+                if (formBelowline) {
+                    formBelowline.style.display = "flex";
+                    formBelowline.style.opacity = "1";
+                    formBelowline.style.pointerEvents = "auto";
+                    formBelowline.style.zIndex = "9998";
+                }
+            }
         }
 
         // Separate handler for confirmation buttons to avoid duplicate listeners
@@ -3102,15 +3152,7 @@ const fetchAvatarData = async () => {
             }
         }
 
-        // Separate function to handle end chat button click
-        function handleEndChatClick() {
-            if(document.getElementsByClassName("confirmation-popup-chat").length > 0){
-                return;
-            }
-            chatHistory.scrollTop = 0;
-            chatHistory.style.overflowY = "hidden";
-            showEmailCapture();
-        }
+        // Note: This function is now handled directly in the click event listener of the end chat button
 
         // Show email collection popup
         function showEmailCapture() {
@@ -3144,7 +3186,6 @@ const fetchAvatarData = async () => {
                 // Get references to the elements
                 const emailInput = document.querySelector('#user-email-input');
                 const errorMessage = document.querySelector('.error-message');
-                const submitEmailBtn = document.querySelector('#submit-email-btn');
 
                 // Focus the email input
                 if (emailInput) {
@@ -3644,11 +3685,38 @@ const fetchAvatarData = async () => {
             }
         }
 
+        // Function to ensure audio button works in embedded contexts
+        function ensureAudioButtonWorks() {
+            const audioControlBtn = document.getElementById('universal-audio-control');
+            if (audioControlBtn) {
+                // Make sure the button is visible and clickable in all contexts
+                audioControlBtn.style.display = "block";
+                audioControlBtn.style.opacity = "1";
+                audioControlBtn.style.pointerEvents = "auto";
+                audioControlBtn.style.zIndex = "9999"; // Ensure it's above other elements
+
+                // Make sure the parent container is also properly configured
+                const audioContainer = document.getElementById('audio-control-container');
+                if (audioContainer) {
+                    audioContainer.style.display = "block";
+                    audioContainer.style.opacity = "1";
+                    audioContainer.style.pointerEvents = "auto";
+                    audioContainer.style.zIndex = "9999";
+                }
+            }
+        }
+
         // Call setup functions
         setupAudioControlButton();
 
+        // Ensure audio button works in embedded contexts
+        ensureAudioButtonWorks();
+
         // Setup end chat button functionality
         setupEndChatFunctionality();
+
+        // Ensure end chat button works in embedded contexts
+        ensureEndChatButtonWorks();
 
         // Add registration handling
         document.querySelectorAll('.next-btn').forEach(btn => {
@@ -3665,6 +3733,10 @@ const fetchAvatarData = async () => {
             });
         });
 
+        // These functions are kept for potential future use
+        // Currently not called directly but maintained for compatibility
+
+        /*
         function showChatInterface() {
             registrationForm.style.display = 'none';
             chatInterface.style.display = 'block';
@@ -3680,6 +3752,7 @@ const fetchAvatarData = async () => {
             await startMicrophone();
             focusTextArea();
         }
+        */
 
         async function handleRegistrationStep(text) {
             open_end_chat();
@@ -3740,6 +3813,9 @@ const fetchAvatarData = async () => {
             return !!localStorage.getItem(VISITOR_ID_KEY);
         }
 
+        // This function is kept for potential future use
+        // Currently not called directly but maintained for compatibility
+        /*
         async function showInitialGreeting() {
             if (!isUserRegistered && !hasGreeting) {
                 registrationStep = 'greeting';
@@ -3763,6 +3839,7 @@ const fetchAvatarData = async () => {
             }
             hasGreeting = true;
         }
+        */
 
         async function handleRegistration(registrationData) {
             try {
@@ -3854,6 +3931,8 @@ const fetchAvatarData = async () => {
                     } catch (parseError) {
                         console.error("Error parsing chat history:", parseError);
                         parsedHistory = [];
+                        // Reset the chat history if it's invalid
+                        localStorage.setItem("chat_history", JSON.stringify([]));
                     }
                 }
 
@@ -3872,9 +3951,14 @@ const fetchAvatarData = async () => {
                         // Scroll to the bottom of the chat history
                         if (parsedHistory.length > 0) {
                             chatHistory.scrollTop = chatHistory.scrollHeight;
+
+                            // Set hasGreeting to true if we have chat history
+                            hasGreeting = true;
                         }
                     } else {
                         console.warn("Stored history is not an array:", parsedHistory);
+                        // Reset the chat history if it's not an array
+                        localStorage.setItem("chat_history", JSON.stringify([]));
                     }
                 } else {
                     console.warn("Chat history element not found");
@@ -3886,10 +3970,17 @@ const fetchAvatarData = async () => {
                     // Enable the end chat button if we have chat history
                     if (endChatIcon) {
                         open_end_chat();
+
+                        // Make sure the end chat button is properly enabled
+                        endChatIcon.style.opacity = "1";
+                        endChatIcon.style.cursor = "pointer";
+                        endChatIcon.disabled = false;
                     }
                 }
 
-                // If we have chat history, make sure the chat container is visible
+                // Don't automatically show the chat container - let the user click the chat button
+                // This is the key change to prevent auto-opening
+                /*
                 if (parsedHistory.length > 0 && chatContainer) {
                     chatContainer.classList.add("active");
                     if (chatButton) {
@@ -3899,9 +3990,11 @@ const fetchAvatarData = async () => {
                         closeButton.style.display = "block";
                     }
                 }
+                */
             } catch (error) {
                 console.error("Error loading chat history:", error);
-                // Don't reset the chat history on error, just log it
+                // Reset the chat history on error
+                localStorage.setItem("chat_history", JSON.stringify([]));
                 if (chatHistory) {
                     chatHistory.innerHTML = "";
                 }
@@ -3920,7 +4013,7 @@ const fetchAvatarData = async () => {
                         // Initialize the chatbot
                         init();
 
-                        // After initialization, explicitly load chat history and show the chat container
+                        // After initialization, explicitly load chat history but DON'T show the chat container
                         setTimeout(function() {
                             try {
                                 // Force load chat history
@@ -3933,9 +4026,9 @@ const fetchAvatarData = async () => {
                                             // Parse the stored history
                                             const parsedHistory = JSON.parse(storedHistory);
 
-                                            // If we have chat history, make sure the chat container is visible
+                                            // If we have chat history, prepare it but don't show the container
                                             if (Array.isArray(parsedHistory) && parsedHistory.length > 0) {
-                                                console.log("Found chat history with " + parsedHistory.length + " messages, displaying...");
+                                                console.log("Found chat history with " + parsedHistory.length + " messages, preparing...");
 
                                                 // Clear current UI before loading
                                                 chatHistoryElement.innerHTML = "";
@@ -3953,27 +4046,18 @@ const fetchAvatarData = async () => {
                                                 // Scroll to the bottom of the chat history
                                                 chatHistoryElement.scrollTop = chatHistoryElement.scrollHeight;
 
-                                                // Make the chat container visible
-                                                const chatContainer = document.querySelector(".chat-container");
-                                                if (chatContainer) {
-                                                    chatContainer.classList.add("active");
+                                                // Enable the end chat button but don't show the container
+                                                const endChatIcon = document.querySelector("#end-chat");
+                                                if (endChatIcon) {
+                                                    endChatIcon.style.opacity = "1";
+                                                    endChatIcon.style.cursor = "pointer";
+                                                    endChatIcon.disabled = false;
 
-                                                    const chatButton = document.getElementById("chat-button");
-                                                    if (chatButton) {
-                                                        chatButton.style.transform = "scale(0)";
-                                                    }
+                                                    // Ensure the end chat button works in embedded contexts
+                                                    ensureEndChatButtonWorks();
 
-                                                    const closeButton = document.getElementById("close-btn23");
-                                                    if (closeButton) {
-                                                        closeButton.style.display = "block";
-                                                    }
-
-                                                    // Enable the end chat button
-                                                    const endChatIcon = document.querySelector("#end-chat");
-                                                    if (endChatIcon) {
-                                                        endChatIcon.style.opacity = "1";
-                                                        endChatIcon.style.cursor = "pointer";
-                                                    }
+                                                    // Ensure the audio button works in embedded contexts
+                                                    ensureAudioButtonWorks();
                                                 }
                                             }
                                         } catch (error) {
@@ -3999,7 +4083,7 @@ const fetchAvatarData = async () => {
                             // Initialize the chatbot
                             init();
 
-                            // After initialization, explicitly load chat history and show the chat container
+                            // After initialization, explicitly load chat history but DON'T show the chat container
                             setTimeout(function() {
                                 try {
                                     // Force load chat history
@@ -4012,9 +4096,9 @@ const fetchAvatarData = async () => {
                                                 // Parse the stored history
                                                 const parsedHistory = JSON.parse(storedHistory);
 
-                                                // If we have chat history, make sure the chat container is visible
+                                                // If we have chat history, prepare it but don't show the container
                                                 if (Array.isArray(parsedHistory) && parsedHistory.length > 0) {
-                                                    console.log("Found chat history with " + parsedHistory.length + " messages, displaying...");
+                                                    console.log("Found chat history with " + parsedHistory.length + " messages, preparing...");
 
                                                     // Clear current UI before loading
                                                     chatHistoryElement.innerHTML = "";
@@ -4032,27 +4116,18 @@ const fetchAvatarData = async () => {
                                                     // Scroll to the bottom of the chat history
                                                     chatHistoryElement.scrollTop = chatHistoryElement.scrollHeight;
 
-                                                    // Make the chat container visible
-                                                    const chatContainer = document.querySelector(".chat-container");
-                                                    if (chatContainer) {
-                                                        chatContainer.classList.add("active");
+                                                    // Enable the end chat button but don't show the container
+                                                    const endChatIcon = document.querySelector("#end-chat");
+                                                    if (endChatIcon) {
+                                                        endChatIcon.style.opacity = "1";
+                                                        endChatIcon.style.cursor = "pointer";
+                                                        endChatIcon.disabled = false;
 
-                                                        const chatButton = document.getElementById("chat-button");
-                                                        if (chatButton) {
-                                                            chatButton.style.transform = "scale(0)";
-                                                        }
+                                                        // Ensure the end chat button works in embedded contexts
+                                                        ensureEndChatButtonWorks();
 
-                                                        const closeButton = document.getElementById("close-btn23");
-                                                        if (closeButton) {
-                                                            closeButton.style.display = "block";
-                                                        }
-
-                                                        // Enable the end chat button
-                                                        const endChatIcon = document.querySelector("#end-chat");
-                                                        if (endChatIcon) {
-                                                            endChatIcon.style.opacity = "1";
-                                                            endChatIcon.style.cursor = "pointer";
-                                                        }
+                                                        // Ensure the audio button works in embedded contexts
+                                                        ensureAudioButtonWorks();
                                                     }
                                                 }
                                             } catch (error) {
