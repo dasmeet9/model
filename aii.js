@@ -180,7 +180,7 @@
             BACKEND_URL = "https://aiservice.yaraamanager.com/api";
         } else {
             // Default fallback URLs
-            BACKEND_URL = "https://61d8-2405-f600-13-1138-1d35-b0cf-5363-ffa.ngrok-free.app/api";
+            BACKEND_URL = "https://aa4a-2405-f600-13-1138-1d35-b0cf-5363-ffa.ngrok-free.app/api";
             // BACKEND_URL = 'https://aiservice.yaraamanager.com/api';
         }
         let speechDetectionFrameId = null;
