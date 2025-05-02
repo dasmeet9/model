@@ -18,11 +18,11 @@
         </div> -->
         <div class="chat-button js-enabled" id="chat-button" >
             <video id="avatar-videoa" autoplay loop muted playsinline src=""
-            style="width: 100%; height: 100%; border-radius: 50%;" controlslist="nodownload noplaybackrate noremoteplayback " disablepictureinpicture></video>
+            style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: center; position: absolute; top: 0; left: 0;" controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicture></video>
             <!-- <img  style="width: 80%; height: 80%; border-radius: 50%;margin: 7px;" src="https://dasabhi8.github.io/3d_Avatar/bot.png" alt=""> -->
-            <img  style="width: 80%; height: 80%; border-radius: 50%;margin: 10px;" src="https://dasmeet9.github.io/model/NiftyHMS%20(1).png" alt="">
+            <img style="width: 80%; height: 80%; border-radius: 50%; margin: 10px; position: relative; z-index: 1;" src="https://dasmeet9.github.io/model/NiftyHMS%20(1).png" alt="">
         </div>
-    
+
         <button class="yarra-ai-close-btn" id="close-btn23">
             <!-- <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18 6L6 18M6 6L18 18" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -31,14 +31,14 @@
                 <path d="M18 6L6 18M6 6L18 18" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
-        
+
         <div class="chat-container">
             <div class="top" >
-    
+
             </div>
             <div class="bootm" style="display: flex; width:100%; height:100%; ">
                 <div class="l">
-                
+
                     <div class="avatar-wrapper">
                     <div class="top-title">
                     <img id="avatar-logo" src="https://dasmeet9.github.io/model/NiftyHMS%20(1).png" alt="">
@@ -47,31 +47,31 @@
                     <div class="stlpp"><span>Powered by &nbsp;</span><a href="http://aiagent.yaraai.com/" target="_blank">Yaraa.ai</a></div>
                     <!-- <hr style="margin:0; padding:0; width:60%; border:3px solid #e2e2e2; "> -->
                     </div>
-    
+
                      <div id="avatar-avtar_name-container">
                      <div class="avatar-container" id="avatar-container">
-                        
+
                         <video id="avatar-video" autoplay loop muted playsinline src=""
-                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none;"  disablepictureinpicture></video>
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; object-fit: cover; object-position: center;"  disablepictureinpicture></video>
                         <video id="avatar-idle" autoplay loop muted playsinline preload="auto" src=""
-                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"  disablepictureinpicture></video>
-                            
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;"  disablepictureinpicture></video>
+
                     </div>
                     <div id="avatar-name">
                         <h6 id="avatar-name-text"></h6><p id="avatar-designation-text">AI Assistant</p>
-                    </div> 
+                    </div>
                      </div>
                         <div class="stlp"><span>Powered by &nbsp;</span><a href="http://aiagent.yaraai.com/" target="_blank">Yaraa.ai</a></div>
                     </div>
                 </div>
                 <div class="r" >
                     <div class="chat_history"> </div>
-                
+
                     <div class="dropdown">
                         <form id="text-form">
                             <textarea id="text" rows="2" placeholder="Type your message here..."></textarea>
                             <div class="form-belowline">
-                               
+
                                 <button type="button" id="end-chat" class="control-btn end-chat-btn" title="End Chat" >
                                 <svg class="btn-icon" viewBox="0 0 24 24">
                                     <path d="M18 6L6 18M6 6l12 12"></path>
@@ -89,7 +89,7 @@
                                         </svg>
                                     </button>
                                     </div>
-                                  
+
                                     <button type="button" id="mic-control" class="control-btn mic-control-btn" title="Voice Input">
                                         <svg class="btn-icon" viewBox="0 0 24 24">
                                             <path class="mic-body" d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
@@ -123,7 +123,7 @@
                             </div>
                         </form>
                     </div>
-    
+
                     <audio id="audio" crossorigin="anonymous" preload="auto" playsinline webkit-playsinline>
                     </audio>
                 </div>
@@ -173,7 +173,7 @@ let AUDIOSPEED = 1.20;
 let currentAudioElement = null; // Add this global variable
 let preferences = {}
 // console.log(window.location.hostname)
-//mapping the speed 
+//mapping the speed
 const speedMap = {
     slow: 0.8,
     medium: 1.2,
@@ -464,7 +464,7 @@ function checkAndClearStorage() {
 
         localStorage.setItem(STORAGE_TIMESTAMP_KEY, currentTime.toString());
         localStorage.setItem("registrationStep","greeting");
-    } 
+    }
 }
 
 // Initialize storage cleanup on page load
@@ -2164,7 +2164,7 @@ const updateMicIcon = () => {
 // Function to show wave animation
 function startWaveAnimation() {
     micControl.classList.add("active");
-    
+
     // Reset animation to ensure it starts fresh each time
     micControl.style.animation = 'none';
     micControl.offsetHeight; // Trigger reflow
@@ -2252,11 +2252,11 @@ function detectFirstSpeech() {
 // function stopRecording() {
 //     clearTimeout(initialSpeechTimeoutId);
 //     clearInterval(silenceCheckInterval);
-    
+
 //     if (mediaRecorder?.state !== 'inactive') {
 //         mediaRecorder.stop(); // Triggers onstop → processRecordedAudio()
 //     }
-    
+
 //     stream?.getTracks().forEach(track => track.stop());
 //     stopWaveAnimation();
 // }
@@ -2300,7 +2300,7 @@ function startSilenceDetection() {
 }
 function detectSpeech() {
     const dataArray = new Uint8Array(analyser.fftSize);
-    
+
     const check = () => {
         analyser.getByteTimeDomainData(dataArray);
         const rms = calculateRMS(dataArray);
@@ -2309,13 +2309,13 @@ function detectSpeech() {
         // 🎙️ Speech detected
         if (rms > RMS_THRESHOLD) {
             lastSoundTime = currentTime; // Always update last sound time
-            
+
             // First sound after silence
             if (!isSpeaking) {
                 speechStartTime = currentTime;
                 isSpeaking = true;
             }
-            
+
             // Confirm speech after minimum duration
             if (!isRecording && (currentTime - speechStartTime) > MIN_SPEECH_DURATION) {
                 beginRecording();
@@ -2331,7 +2331,7 @@ function detectSpeech() {
             requestAnimationFrame(check);
         }
     };
-    
+
     check();
 }
 
@@ -2360,14 +2360,14 @@ async function startRecording() {
     try {
         startWaveAnimation();
         resetState();
-        
+
         stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        
+
         analyser = audioContext.createAnalyser();
         analyser.fftSize = 2048;
         analyser.minDecibels = VOICE_MIN_DECIBELS;
-        
+
         sourceNode = audioContext.createMediaStreamSource(stream);
         sourceNode.connect(analyser);
 
@@ -2676,7 +2676,7 @@ function startNewChat() {
                 enableInputControls();
                 startMicrophone();
             });
-            
+
         }
     } else {
     //    startNewChat ();

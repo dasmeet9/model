@@ -31,9 +31,9 @@
     </noscript>
     <div class="chat-button js-enabled" id="chat-button" >
         <video id="avatar-videoa" autoplay loop muted playsinline src=""
-        style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; max-width: 100%; max-height: 100%;" controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicture></video>
+        style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: center; max-width: 100%; max-height: 100%; position: absolute; top: 0; left: 0;" controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicture></video>
 
-        <img  style="width: 80%; height: 80%; border-radius: 50%;margin: 10px;" src="https://dasmeet9.github.io/model/NiftyHMS%20(1).png" alt="">
+        <img  style="width: 80%; height: 80%; border-radius: 50%; margin: 10px; position: relative; z-index: 1;" src="https://dasmeet9.github.io/model/NiftyHMS%20(1).png" alt="">
     </div>
 
     <button class="yarra-ai-close-btn" id="close-btn23">
@@ -180,7 +180,7 @@
             BACKEND_URL = "https://aiservice.yaraamanager.com/api";
         } else {
             // Default fallback URLs
-            BACKEND_URL = "https://aiservice.yaraamanager.com/api";
+            BACKEND_URL = "https://61d8-2405-f600-13-1138-1d35-b0cf-5363-ffa.ngrok-free.app/api";
             // BACKEND_URL = 'https://aiservice.yaraamanager.com/api';
         }
         let speechDetectionFrameId = null;
@@ -505,6 +505,42 @@ const fetchAvatarData = async () => {
         const buttonVideo = document.getElementById('avatar-videoa');
         if (buttonVideo) {
             buttonVideo.src = avatarData.data.avatar_idle;
+
+            // Ensure proper video display on mobile
+            ensureProperVideoDisplay();
+        }
+
+        // Function to ensure proper video display on all devices
+        function ensureProperVideoDisplay() {
+            const buttonVideo = document.getElementById('avatar-videoa');
+            if (buttonVideo) {
+                // Force proper styling for mobile devices
+                buttonVideo.style.width = '100%';
+                buttonVideo.style.height = '100%';
+                buttonVideo.style.objectFit = 'cover';
+                buttonVideo.style.objectPosition = 'center';
+                buttonVideo.style.borderRadius = '50%';
+                buttonVideo.style.position = 'absolute';
+                buttonVideo.style.top = '0';
+                buttonVideo.style.left = '0';
+
+                // Add event listener to ensure video is properly loaded
+                buttonVideo.addEventListener('loadeddata', function() {
+                    console.log('Video loaded successfully');
+                    // Force redraw
+                    buttonVideo.style.display = 'none';
+                    setTimeout(function() {
+                        buttonVideo.style.display = 'block';
+                    }, 10);
+                });
+
+                // Handle errors
+                buttonVideo.addEventListener('error', function(e) {
+                    console.error('Error loading video:', e);
+                    // Hide video and show only the logo
+                    buttonVideo.style.display = 'none';
+                });
+            }
         }
         })();
 
@@ -4058,6 +4094,9 @@ const fetchAvatarData = async () => {
 
                                                     // Ensure the audio button works in embedded contexts
                                                     ensureAudioButtonWorks();
+
+                                                    // Ensure proper video display on mobile
+                                                    ensureProperVideoDisplay();
                                                 }
                                             }
                                         } catch (error) {
@@ -4128,6 +4167,9 @@ const fetchAvatarData = async () => {
 
                                                         // Ensure the audio button works in embedded contexts
                                                         ensureAudioButtonWorks();
+
+                                                        // Ensure proper video display on mobile
+                                                        ensureProperVideoDisplay();
                                                     }
                                                 }
                                             } catch (error) {
