@@ -3,7 +3,7 @@
     // Default configuration options
     var defaults = {
       containerId: 'chatbot-container',  // The element ID where the widget will be injected
-      cssUrl: 'https://dasmeet9.github.io/model/style2.css'  // The URL to the external CSS fil
+      cssUrl: 'https://dasmeet9.github.io/model/abhi/style.css'  // The URL to the external CSS fil
     };
   
     // Merge user options with defaults
@@ -31,7 +31,7 @@
   // Create a wrapper div for the chatbot content
   const wrapper = shadow.createElement('div');
   wrapper.id = 'chatbot-container';
-  wrapper.innerHTML = `<link rel="stylesheet" href="https://dasmeet9.github.io/model/style2.css">
+  wrapper.innerHTML = `<link rel="stylesheet" href="https://dasmeet9.github.io/model/abhi/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <body>
       <noscript>
@@ -3432,6 +3432,6 @@
   
 ChatbotWidget.init({
        containerId: 'chatbot-container', 
-       cssUrl: 'https://dasmeet9.github.io/model/style2.css'
+       cssUrl: 'https://dasmeet9.github.io/model/abhi/style.css'
 });
 const BACKENDURL = 'https://aiservice.yaraamanager.com/api';
