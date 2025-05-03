@@ -30,57 +30,82 @@
     <style> .js-enabled { display: none; } </style>
     <p>JavaScript is disabled!</p>
     </noscript>
+    <!-- <div class="chat-button js-enabled" id="chat-button" >
+        <video id="avatar-videoa" autoplay loop muted playsinline src=""
+            style="width: 100%; height: 100%; border-radius: 50%;" controlslist="nodownload noplaybackrate noremoteplayback " disablepictureinpicture></video>
+            img
+    </div> -->
     <div class="chat-button js-enabled" id="chat-button" >
         <video id="avatar-videoa" autoplay loop muted playsinline src=""
         style="width: 100%; height: 100%; border-radius: 50%;" controlslist="nodownload noplaybackrate noremoteplayback " disablepictureinpicture></video>
-
+        <!-- <img  style="width: 80%; height: 80%; border-radius: 50%;margin: 7px;" src="https://dasabhi8.github.io/3d_Avatar/bot.png" alt=""> -->
         <img  style="width: 80%; height: 80%; border-radius: 50%;margin: 10px;" src="https://dasmeet9.github.io/model/NiftyHMS%20(1).png" alt="">
     </div>
 
     <button class="yarra-ai-close-btn" id="close-btn23">
-
+        <!-- <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6L6 18M6 6L18 18" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg> -->
         <svg width="15" height="15" style="background-color: #4f4e4e69;border-radius: 8px 8px 8px 8px;padding: 0;width: 21px;height: 15px; " viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M18 6L6 18M6 6L18 18" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
     </button>
-
+    
     <div class="chat-container">
         <div class="top" >
 
         </div>
         <div class="bootm" style="display: flex; width:100%; height:100%; ">
             <div class="l">
-
+            
                 <div class="avatar-wrapper">
                 <div class="top-title">
                 <img id="avatar-logo" src="https://dasmeet9.github.io/model/NiftyHMS%20(1).png" alt="">
+                <!-- <img id="avatar-logo" src="https://niftyhms.com/wp-content/uploads/2023/05/NiftyHMS.png" alt=""> -->
+                <!-- <div  class="sltp">powered by &nbsp;<a href="http://aiagent.yaraai.com/" target="_blank">  yaraai</a></div> -->
                 <div class="stlpp"><span>Powered by &nbsp;</span><a href="http://aiagent.yaraai.com/" target="_blank">Yaraa.ai</a></div>
+                <!-- <hr style="margin:0; padding:0; width:60%; border:3px solid #e2e2e2; "> -->
                 </div>
 
                  <div id="avatar-avtar_name-container">
                  <div class="avatar-container" id="avatar-container">
-
+                    
                     <video id="avatar-video" autoplay loop muted playsinline src=""
                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none;"  disablepictureinpicture></video>
                     <video id="avatar-idle" autoplay loop muted playsinline preload="auto" src=""
                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"  disablepictureinpicture></video>
-
+                        
                 </div>
                 <div id="avatar-name">
                     <h6 id="avatar-name-text"></h6><p id="avatar-designation-text">AI Assistant</p>
-                </div>
+                </div> 
                  </div>
                     <div class="stlp"><span>Powered by &nbsp;</span><a href="http://aiagent.yaraai.com/" target="_blank">Yaraa.ai</a></div>
                 </div>
             </div>
             <div class="r" >
                 <div class="chat_history"> </div>
-
+            
                 <div class="dropdown">
                     <form id="text-form">
-                        <textarea id="text" rows="2" placeholder="Type your message here..."></textarea>
+                       <div style=" display: flex; width: 100%; justify-content: space-between; align-items: center;">
+                       <textarea id="text" rows="2" placeholder="Type your message here..."></textarea>
+                        <div id="speech-to-text-container" class="tooltip-container">
+                                <button type="button" id="speech-to-text-control" class="control-btn speech-to-text-btn" title="Speech to Text">
+                                <svg class="btn-icon" viewBox="0 0 36 24">
+                                    <rect id="rect1" x="2" y="9" width="4.5" height="6" rx="2" stroke="#2A3663" stroke-width="0" fill="#2A3663"/>
+        <rect id="rect2" x="8.5" y="5" width="4.5" height="14" rx="2" stroke="#2A3663" stroke-width="0" fill="#2A3663"/>
+        <rect id="rect3" x="15" y="3" width="4.5" height="18" rx="2" stroke="#2A3663" stroke-width="0" fill="#2A3663"/>
+        <rect id="rect4" x="21.5" y="5" width="4.5" height="14" rx="2" stroke="#2A3663" stroke-width="0" fill="#2A3663"/>
+        <rect id="rect5" x="28" y="9" width="4.5" height="6" rx="2" stroke="#2A3663" stroke-width="0" fill="#2A3663"/>
+                                    </svg>
+                                </button>
+                                <span class="tooltip-text">Click here to ask question</span>
+                        </div>
+                                  <div></div>
+                       </div>
                         <div class="form-belowline">
-
+                           
                             <button type="button" id="end-chat" class="control-btn end-chat-btn" title="End Chat" >
                             <svg class="btn-icon" viewBox="0 0 24 24">
                                 <path d="M18 6L6 18M6 6l12 12"></path>
@@ -88,6 +113,21 @@
                             <span>End Chat</span>
                             </button>
                             <div class="form-belowline2">
+                            
+
+                                
+                                <!-- <div id="speech-to-text-container">
+                                    <button type="button" id="speech-to-text-control" class="control-btn speech-to-text-btn" title="Speech to Text">
+                                        <svg class="btn-icon" viewBox="0 0 36 24">
+                                            <rect x="2" y="7" width="4.5" height="10" rx="2" stroke="#2A3663" stroke-width="0" fill="#2A3663"/>
+                                            <rect x="8.5" y="3" width="4.5" height="18" rx="2" stroke="#2A3663" stroke-width="0" fill="#2A3663"/>
+                                            <rect x="15" y="1" width="4.5" height="22" rx="2" stroke="#2A3663" stroke-width="0" fill="#2A3663"/>
+                                            <rect x="21.5" y="3" width="4.5" height="18" rx="2" stroke="#2A3663" stroke-width="0" fill="#2A3663"/>
+                                            <rect x="28" y="7" width="4.5" height="10" rx="2" stroke="#2A3663" stroke-width="0" fill="#2A3663"/>
+                                        </svg>
+                                    </button>
+                                </div> -->
+                                
                                 <!-- Audio control button - state determined by localStorage -->
                                 <div id="audio-control-container">
                                 <button type="button" id="universal-audio-control" class="control-btn audio-control-btn" title="Toggle Audio">
@@ -98,7 +138,7 @@
                                     </svg>
                                 </button>
                                 </div>
-
+                              
                                 <button type="button" id="mic-control" class="control-btn mic-control-btn" title="Voice Input">
                                     <svg class="btn-icon" viewBox="0 0 24 24">
                                         <path class="mic-body" d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
@@ -108,13 +148,6 @@
                                         <!-- Slash Line for Muted Mic -->
                                         <line id="mute-line" class="mute-line" x1="3" y1="3" x2="21" y2="21"/>
                                     </svg>
-                                    <!-- Add Siri-like wave container -->
-                                    <div class="mic-waves-container">
-                                        <div class="mic-wave"></div>
-                                        <div class="mic-wave"></div>
-                                        <div class="mic-wave"></div>
-                                        <div class="mic-wave"></div>
-                                    </div>
                                 </button>
                                 <!-- Add stop button -->
                                 <button type="button" id="stop-audio" class="control-btn stop-btn" title="Stop Audio" style="display: none;">
@@ -179,6 +212,13 @@
     const registrationForm = document.getElementById("registration-form");
     const chatInterface = document.getElementById("chat-interface");
     // Get backend URL from config if available
+    const STTbutton = document.getElementById('speech-to-text-control');
+const rect1 = document.getElementById('rect1');
+const rect2 = document.getElementById('rect2');
+const rect3 = document.getElementById('rect3');
+const rect4 = document.getElementById('rect4');
+const rect5 = document.getElementById('rect5');
+let sttanimation = false;
     let BACKEND_URL = false;
 
     if (typeof aiAgentConfig !== "undefined" && aiAgentConfig.backendUrl) {
@@ -346,6 +386,38 @@
         messages = { ...DEFAULT_MESSAGES };
       }
     };
+    ///this is for teh wave animation 
+function startsttanimation() {
+  // Add active class to button
+  STTbutton.classList.add('active');
+  STTbutton.classList.add('button-pulse');
+  
+  // Add animation to rectangles
+  rect1.classList.add('rect-animated-1');
+  rect2.classList.add('rect-animated-2');
+  rect3.classList.add('rect-animated-3');
+  rect4.classList.add('rect-animated-4');
+  rect5.classList.add('rect-animated-5');
+  
+  // Update active state
+  sttanimation = true;
+}
+
+function stopsttanimation() {
+  // Remove active class from button
+  STTbutton.classList.remove('active');
+  STTbutton.classList.remove('button-pulse');
+  
+  // Remove animations from rectangles
+  rect1.classList.remove('rect-animated-1');
+  rect2.classList.remove('rect-animated-2');
+  rect3.classList.remove('rect-animated-3');
+  rect4.classList.remove('rect-animated-4');
+  rect5.classList.remove('rect-animated-5');
+  
+  // Update active state
+  sttanimation = false;
+}
 
     // Wait for data before using it
     (async () => {
@@ -481,6 +553,13 @@
         buttonVideo.src = avatarData.data.avatar_idle;
       }
     })();
+    STTbutton.addEventListener('click', ()=>{
+      if(!sttanimation){
+          startsttanimation();
+      }else{
+          stopsttanimation();
+      }
+    })
 
     video.playbackRate = 0.8; // Adjust video speed
     videoIdle.play();
@@ -581,14 +660,14 @@
     });
     // microphone animation functionality should be shown from here
     //  Function to show wave animation
-    function startWaveAnimation() {
-      micControl.classList.add("active");
-    }
+    // function startWaveAnimation() {
+    //   micControl.classList.add("active");
+    // }
 
-    //  Function to hide wave animation
-    function stopWaveAnimation() {
-      micControl.classList.remove("active");
-    }
+    // //  Function to hide wave animation
+    // function stopWaveAnimation() {
+    //   micControl.classList.remove("active");
+    // }
     //end of handln the data of the localstirage
 
     // Function to check if user is already registered from chat history
@@ -607,10 +686,10 @@
       }
     }
 
-    // Add helper function to focus textarea
-    function focusTextArea() {
-      textArea.focus();
-    }
+    // // Add helper function to focus textarea
+    // function focusTextArea() {
+    //   textArea.focus();
+    // }
 
     // Add helper function to check for existing greeting
     function hasExistingGreeting() {
@@ -726,8 +805,9 @@
 
             // Enable input controls and focus the text area
             enableInputControls();
-            focusTextArea();
-            await startMicrophone();
+            // focusTextArea();
+            showSpeechToTextTooltip();
+            // await startMicrophone();
 
             // Return early since we've loaded the chat history
             return;
@@ -757,7 +837,7 @@
           const welcomeText = `${messages.welcome} , ${messages.namePrompt}`;
           // Play the audio using the preloaded URLs
           await playPreloadedWelcomeAudio(welcomeText, preloadedWelcomeAudio);
-          await startMicrophone();
+          // await startMicrophone();
         } else {
           // Fallback to regular TTS if preloaded audio is not available
           console.log(
@@ -766,7 +846,7 @@
           await processAndPlayTTS(
             `${messages.welcome} , ${messages.namePrompt}`
           );
-          await startMicrophone();
+          // await startMicrophone();
         }
 
         localStorage.setItem("registrationStep", registrationStep);
@@ -778,12 +858,12 @@
           if (preloadedWelcomeAudio && preloadedWelcomeAudio.length > 0) {
             const welcomeText = `${messages.welcome} , ${messages.namePrompt}`;
             await playPreloadedWelcomeAudio(welcomeText, preloadedWelcomeAudio);
-            await startMicrophone();
+            // await startMicrophone();
           } else {
             await processAndPlayTTS(
               `${messages.welcome} ${messages.namePrompt}`
             );
-            await startMicrophone();
+            // await startMicrophone();
           }
         }
         // startMicrophone();
@@ -797,12 +877,12 @@
         appendChatBubble("bot", welcomeBack);
         await processAndPlayTTS(welcomeBack);
         enableInputControls();
-        focusTextArea();
-        await startMicrophone();
+        // focusTextArea();
+        // await startMicrophone();
       }
       enableInputControls();
-      await startMicrophone();
-      focusTextArea();
+      // await startMicrophone();
+      // focusTextArea();
     }
     // Function to play preloaded welcome audio
     async function playPreloadedWelcomeAudio(textResponse, preloadedAudioURLs) {
@@ -810,7 +890,7 @@
         localStorage.getItem(AUDIO_PREFERENCES_KEY) || '{"isMuted": false}'
       );
       if (isMuted || !MICONLY) {
-        await startMicrophone();
+        // await startMicrophone();
         return;
       }
 
@@ -937,6 +1017,9 @@
       universalAudioControl.style.opacity = "0.5";
       universalAudioControl.disabled = true;
       universalAudioControl.style.cursor = "not-allowed";
+      STTbutton.style.opacity = "0.5";
+      STTbutton.style.pointerEvents = "none";
+      STTbutton.style.cursor = "not-allowed";
     }
     function enableInputControls() {
       textArea.disabled = false;
@@ -951,6 +1034,9 @@
       universalAudioControl.style.opacity = "1";
       universalAudioControl.disabled = false;
       universalAudioControl.style.cursor = "pointer";
+      STTbutton.style.opacity = "1";
+      STTbutton.style.pointerEvents = "auto";
+      STTbutton.style.cursor = "pointer";
     }
     // Update form submission handler to use disable controls
     form.addEventListener("submit", async (e) => {
@@ -1070,8 +1156,8 @@
             }
 
             enableInputControls();
-            await startMicrophone();
-            focusTextArea();
+            // await startMicrophone();
+            // focusTextArea();
           } else {
             // Remove the TTS loading indicator
             // if (loadingTTSMessage.parentNode) {
@@ -1086,8 +1172,8 @@
               appendChatBubble("bot", `${errorMessage}`);
               await processAndPlayTTS(errorMessage);
               enableInputControls();
-              await startMicrophone();
-              focusTextArea();
+              // await startMicrophone();
+              // focusTextArea();
             }
           }
         } catch (error) {
@@ -1105,7 +1191,7 @@
           appendChatBubble("bot", errorMessage);
           await processAndPlayTTS(errorMessage);
           enableInputControls();
-          focusTextArea();
+          // focusTextArea();
         }
       }
     }
@@ -1221,7 +1307,7 @@
 
         // If muted or microphone not enabled, return early
         if (isMuted || !MICONLY) {
-          await startMicrophone();
+          // await startMicrophone();
           return;
         }
 
@@ -1422,7 +1508,7 @@
       } catch (error) {
         console.error("Error in processAndPlayTTS:", error);
         enableInputControls();
-        await startMicrophone();
+        // await startMicrophone();
       }
     }
     function splitIntoSentences(text) {
@@ -1631,8 +1717,8 @@
           // Strip HTML before sending to TTS
           await processAndPlayTTS(stripHtmlTags(botResponse));
           enableInputControls();
-          await startMicrophone();
-          focusTextArea();
+          // await startMicrophone();
+          // focusTextArea();
         } else {
           if (localStorage.getItem("registrationStep")) {
             console.log("your in register steps for now");
@@ -1642,8 +1728,8 @@
             appendChatBubble("bot", `${errorMessage}`);
             await processAndPlayTTS(errorMessage);
             enableInputControls();
-            await startMicrophone();
-            focusTextArea();
+            // await startMicrophone();
+            // focusTextArea();
           }
         }
       } catch (error) {
@@ -1654,7 +1740,7 @@
         appendChatBubble("bot", errorMessage);
         await processAndPlayTTS(errorMessage);
         enableInputControls();
-        focusTextArea();
+        // focusTextArea();
       }
     }
 
@@ -1935,6 +2021,7 @@
         await startRecording();
       }
     };
+    STTbutton.addEventListener('click', startMicrophone);
     const startMicrophoneOnClick = async () => {
       if (!MICONLY) return;
 
@@ -1957,7 +2044,7 @@
 
       // Start or stop microphone accordingly
       if (preferences.microphoneEnabled) {
-        await startMicrophone();
+        // await startMicrophone();
       } else {
         try {
           stopRecording();
@@ -1978,18 +2065,18 @@
       }
     };
     // Function to show wave animation
-    function startWaveAnimation() {
-      micControl.classList.add("active");
+    // function startWaveAnimation() {
+    //   micControl.classList.add("active");
 
-      // Reset animation to ensure it starts fresh each time
-      micControl.style.animation = "none";
-      micControl.offsetHeight; // Trigger reflow
-      micControl.style.animation = null;
-    }
-    // Function to hide wave animation
-    function stopWaveAnimation() {
-      micControl.classList.remove("active");
-    }
+    //   // Reset animation to ensure it starts fresh each time
+    //   micControl.style.animation = "none";
+    //   micControl.offsetHeight; // Trigger reflow
+    //   micControl.style.animation = null;
+    // }
+    // // Function to hide wave animation
+    // function stopWaveAnimation() {
+    //   micControl.classList.remove("active");
+    // }
     function detectFirstSpeech() {
       const bufferLength = analyser.fftSize;
       const dataArray = new Uint8Array(bufferLength);
@@ -2136,7 +2223,8 @@
     }
     async function startRecording() {
       try {
-        startWaveAnimation();
+        // startWaveAnimation();
+        startsttanimation();
         resetState();
 
         stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -2285,7 +2373,7 @@
 
       // Start microphone for the next question
       // startListeningForNextQuestion();
-      startMicrophone();
+      // startMicrophone();
     }
 
     //updated localstorage setting
@@ -2371,6 +2459,18 @@
         console.error("Error storing chat message:", error);
       }
     }
+
+    function showSpeechToTextTooltip() {
+      const tooltipContainer = document.getElementById('speech-to-text-container');
+      if (tooltipContainer) {
+          tooltipContainer.classList.add('tooltip-visible');
+          
+          // Hide tooltip after specified duration
+          setTimeout(() => {
+              tooltipContainer.classList.remove('tooltip-visible');
+          }, 2000);
+      }
+  }
     // newchatIcon.addEventListener('click', startNewChat);
 
     // Function to handle starting a new chat
@@ -2427,14 +2527,16 @@
           playPreloadedWelcomeAudio(welcomeText, preloadedWelcomeAudio).then(
             () => {
               enableInputControls();
-              startMicrophone();
+              // startMicrophone();
+              showSpeechToTextTooltip();
             }
           );
         } else {
           // Fallback to regular TTS
           processAndPlayTTS(`${welcomeMessage}, ${namemessage}`).then(() => {
             enableInputControls();
-            startMicrophone();
+            // startMicrophone();
+            showSpeechToTextTooltip();
           });
         }
       } else {
@@ -3164,8 +3266,8 @@
 
       await processAndPlayTTS(welcomeBack);
       enableInputControls();
-      await startMicrophone();
-      focusTextArea();
+      // await startMicrophone();
+      // focusTextArea();
     }
 
     async function handleRegistrationStep(text) {
@@ -3186,8 +3288,8 @@
           localStorage.setItem("registrationStep", registrationStep);
           await processAndPlayTTS(phonePrompt);
           enableInputControls();
-          focusTextArea();
-          await startMicrophone();
+          // focusTextArea();
+          // await startMicrophone();
           break;
 
         case "phone":
@@ -3201,8 +3303,8 @@
             appendChatBubble("bot", invalidPhoneMsg);
             await processAndPlayTTS(invalidPhoneMsg);
             enableInputControls();
-            focusTextArea();
-            await startMicrophone();
+            // focusTextArea();
+            // await startMicrophone();
             return;
           }
           registrationData.phone = cleannumber;
@@ -3212,8 +3314,8 @@
           );
           appendChatBubble("user", cleannumber);
           await handleRegistration(registrationData);
-          focusTextArea();
-          await startMicrophone();
+          // focusTextArea();
+          // await startMicrophone();
           break;
       }
     }
@@ -3245,18 +3347,18 @@
           processAndPlayTTS(`${messages.welcome} , ${messages.namePrompt}`),
           // processAndPlayTTS(messages.namePrompt)
         ]);
-        await startMicrophone();
+        // await startMicrophone();
       } else if (isUserRegistered && !hasGreeting) {
         const welcomeBack = messages.welcomeBack.replace(
           "{name}",
           userData.name || ""
         );
         appendChatBubble("bot", welcomeBack);
-        focusTextArea();
+        // focusTextArea();
         disableInputControls();
         await processAndPlayTTS(welcomeBack);
         enableInputControls();
-        await startMicrophone();
+        // await startMicrophone();
       }
       hasGreeting = true;
     }
@@ -3288,12 +3390,12 @@
 
           const successMsg = `Thank you, ${registrationData.username}! Your information is securely saved. How may I assist you today?`;
           appendChatBubble("bot", successMsg);
-          focusTextArea();
+          // focusTextArea();
           registrationStep = "";
           registrationData = {};
           await processAndPlayTTS(successMsg);
           enableInputControls();
-          focusTextArea();
+          // focusTextArea();
           open_end_chat();
         } else {
           const errorText = await response.text();
@@ -3306,7 +3408,7 @@
           registrationData = {}; // Clear the data if registration failed
           await processAndPlayTTS(errorMsg);
           enableInputControls();
-          focusTextArea();
+          // focusTextArea();
           open_end_chat();
         }
       } catch (error) {
@@ -3319,7 +3421,7 @@
         localStorage.setItem("registrationStep", registrationStep);
         registrationData = {}; // Clear the data if registration failed
         enableInputControls();
-        focusTextArea();
+        // focusTextArea();
         open_end_chat();
       }
     }
