@@ -2061,7 +2061,8 @@ function stopsttanimation() {
         muteLine.style.display = preferences.microphoneEnabled
           ? "none"
           : "block";
-        stopWaveAnimation();
+        // stopWaveAnimation();
+        stopsttanimation();
       }
     };
     // Function to show wave animation
@@ -2142,7 +2143,8 @@ function stopsttanimation() {
       if (stream) {
         stream.getTracks().forEach((track) => track.stop());
       }
-      stopWaveAnimation();
+      // stopWaveAnimation();
+      stopsttanimation();
     }
     function calculateRMS(dataArray) {
       let sum = 0;
@@ -2248,7 +2250,8 @@ function stopsttanimation() {
         detectSpeech(); // Start listening for voice ✅
       } catch (err) {
         console.error("Microphone error:", err);
-        stopWaveAnimation();
+        // stopWaveAnimation();
+        stopsttanimation();
       }
     }
     function detectSilence() {
@@ -2284,7 +2287,8 @@ function stopsttanimation() {
 
     async function processRecordedAudio() {
       const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
-      stopWaveAnimation();
+      // stopWaveAnimation();
+      stopsttanimation();
       if (audioBlob.size > 0) {
         const formData = new FormData();
         formData.append("audio", audioBlob, "voice_input.webm");
