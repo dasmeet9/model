@@ -247,9 +247,9 @@ let sttloader = document.getElementsByClassName('loader-dots');
 let voicecontainertohideshow = document.getElementById('speech-to-text-container');
 
 let BACKEND_URL = false;
-// BACKEND_URL = 'https://aiservice.yaraamanager.com/api'; 
+BACKEND_URL = 'https://aiservice.yaraamanager.com/api'; 
 // BACKEND_URL = 'https://1cf5-122-170-116-48.ngrok-free.app/api';
-BACKEND_URL  = "http://127.0.0.1:5000/api";
+// BACKEND_URL  = "http://127.0.0.1:5000/api";
 let speechDetectionFrameId = null;
 // console.log("Backend_url",BACKEND_URL);
 let ENDCHATTHINGS = false;
